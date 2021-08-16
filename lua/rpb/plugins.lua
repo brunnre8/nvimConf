@@ -21,6 +21,8 @@ require('packer').startup(function(use)
     }
   }
 
+  use 'scrooloose/nerdtree'
+
   -- Highlight, edit, and navigate code using a fast incremental parsing library
   use 'nvim-treesitter/nvim-treesitter'
   use 'nvim-treesitter/playground'

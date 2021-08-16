@@ -10,6 +10,7 @@ vim.g.mapleader = ','
 noremap('i', 'jk', '<Esc>')
 
 -- NORMAL --
+noremap('n', '<C-n>', ':NERDTreeToggle<CR>')
 noremap('n', '<Leader>a', '<C-a>') -- numbers increment / decrement
 noremap('n', '<Leader>x', '<C-x>')
 noremap('n', '<Leader>c', ':ccl <bar> lcl<CR>')
