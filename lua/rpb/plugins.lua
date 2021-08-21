@@ -137,6 +137,13 @@ local on_attach = function(client, bufnr)
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>la', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
 
     vim.cmd [[ command! LspFormat execute 'lua vim.lsp.buf.formatting()' ]]
+
+	require('lsp_signature').on_attach({
+		hint_prefix = "",
+		hint_enable = false,
+		floating_window = true,
+		doc_lines = 1,
+	})
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -191,11 +198,3 @@ function! SynStack()
 endfunc
 map gm :call SynStack()<CR>
 ]])
-
--- doesn't work very well
--- require('lsp_signature').on_attach({
---     hint_prefix = "",
---     hint_enable = false,
---     floating_window = true,
---     doc_lines = 1,
--- })
