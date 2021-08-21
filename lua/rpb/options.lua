@@ -21,6 +21,7 @@ hi! link SignColumn Default
 hi! link GitSignsAdd GruvboxGreenBold
 hi! link GitSignsChange GruvboxAquaBold
 hi! link GitSignsDelete GruvboxRedBold
+hi! link TSError Normal
 ]])
 
 -- Highlight on yank
