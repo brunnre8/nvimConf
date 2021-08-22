@@ -11,18 +11,7 @@ cmd("filetype plugin on")
 cmd("filetype indent on")
 cmd("syntax enable")
 
-cmd("autocmd ColorScheme * highlight ExtraWhitespace cterm=reverse ctermfg=214 ctermbg=235 gui=reverse guifg=#fabd2f guibg=#282828")
-
-opt.background = "dark" -- or "light" for light mode
 cmd([[colorscheme gruvbox]])
--- override some things of the colorscheme
-cmd([[
-hi! link SignColumn Default
-hi! link GitSignsAdd GruvboxGreenBold
-hi! link GitSignsChange GruvboxAquaBold
-hi! link GitSignsDelete GruvboxRedBold
-hi! link TSError Normal
-]])
 
 -- Highlight on yank
 vim.api.nvim_exec(

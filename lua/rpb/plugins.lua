@@ -3,16 +3,13 @@ require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
     --use "wbthomason/lsp-status.nvim"
-  --use 'morhetz/gruvbox'
-  use {"npxbr/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+  use {"brunnre8/gruvbox.nvim", requires = {"rktjmp/lush.nvim"}}
+
 
   use 'tpope/vim-repeat'
   use 'tpope/vim-surround'
   use 'tpope/vim-commentary'
   use 'tpope/vim-fugitive'
-
-  use 'tjdevries/colorbuddy.vim'
-  use 'tjdevries/gruvbuddy.nvim'
 
   use { 'nvim-telescope/telescope.nvim',
     requires = {
