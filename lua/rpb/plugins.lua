@@ -116,7 +116,7 @@ function _G.goimports(timeout_ms)
 end
 
 local lspconfig = require('lspconfig')
-local on_attach = function(client, bufnr)
+local on_attach = function(_, bufnr)
     vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
     local opts = { noremap = true, silent = true }
     vim.api.nvim_buf_set_keymap(bufnr, 'n', '<leader>D', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
