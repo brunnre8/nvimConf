@@ -177,6 +177,31 @@ lsp_server("ccls")
 lsp_server("pylsp")
 lsp_server("bashls")
 
+local runtime_path = vim.split(package.path, ';')
+table.insert(runtime_path, "lua/?.lua")
+table.insert(runtime_path, "lua/?/init.lua")
+lsp_server("sumneko_lua", {
+    cmd = {"/usr/bin/lua-language-server"},
+    settings = {
+        Lua = {
+            runtime = {
+                version = 'LuaJIT', -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+                path = runtime_path, -- Setup your lua path
+            },
+            diagnostics = {
+                globals = {'vim'}, -- Get the language server to recognize the `vim` global
+            },
+            workspace = {
+                library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
+            },
+            telemetry = {
+                enable = false,
+            },
+        },
+    },
+
+})
+
 vim.cmd([[
 augroup lsp_formatters
     au!
