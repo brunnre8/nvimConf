@@ -207,7 +207,7 @@ augroup lsp_formatters
     au!
     au BufWritePre *.go lua vim.lsp.buf.formatting_sync(nil, 1000)
     au BufWritePre *.go lua goimports(1000)
-    au BufWritePre *.python lua vim.lsp.buf.formatting_sync(nil, 1000)
+    au BufWritePre *.py lua vim.lsp.buf.formatting_sync(nil, 1000)
 augroup END
 ]])
 
