@@ -9,6 +9,9 @@ vim.g.mapleader = ','
 -- INSERT --
 noremap('i', 'jk', '<Esc>')
 
+-- Terminal --
+noremap('t', '<Esc>', [[<C-\><C-n>]])
+
 -- NORMAL --
 noremap('n', '<C-n>', ':NERDTreeToggle<CR>')
 noremap('n', '<Leader>a', '<C-a>') -- numbers increment / decrement
