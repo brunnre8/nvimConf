@@ -15,21 +15,21 @@ cmd([[colorscheme gruvbox]])
 
 -- Highlight on yank
 vim.api.nvim_exec(
-  [[
+	[[
   augroup YankHighlight
     autocmd!
     autocmd TextYankPost * silent! lua vim.highlight.on_yank()
   augroup end
 ]],
-  false
+	false
 )
 
 opt.formatoptions = opt.formatoptions
-  - "t" -- Auto-wrap text using textwidth
-  - "o" -- O and o, don't continue comments
-  - "r" -- Automatically insert the current comment leader after hitting <Enter> in Insert mode.
-  + "n" -- Indent past the formatlistpat, not underneath it. Makes a paragraph after a numbered list for example
-  + "j" -- Auto-remove comments if possible.
+	- "t" -- Auto-wrap text using textwidth
+	- "o" -- O and o, don't continue comments
+	- "r" -- Automatically insert the current comment leader after hitting <Enter> in Insert mode.
+	+ "n" -- Indent past the formatlistpat, not underneath it. Makes a paragraph after a numbered list for example
+	+ "j" -- Auto-remove comments if possible.
 
 opt.modeline = false
 opt.linebreak = true
@@ -47,12 +47,12 @@ opt.termguicolors = true
 opt.autoindent = true
 opt.hlsearch = true
 opt.showmatch = true -- show the matching part of the pair for [] {} and ()
-opt.backspace = {'indent', 'eol', 'start'}
-opt.wildmode = {'longest:full'} -- complete max common prefix, don't override unless told to do so
-opt.completeopt = {'menuone', 'noselect'} -- pretty much required by compe
+opt.backspace = { "indent", "eol", "start" }
+opt.wildmode = { "longest:full" } -- complete max common prefix, don't override unless told to do so
+opt.completeopt = { "menuone", "noselect" } -- pretty much required by compe
 opt.autoread = true -- auto reload a file if it changes
 opt.ignorecase = true
 opt.smartcase = true -- case insensitive search except one uses uppercase letters
 opt.hidden = true -- modified buffers can be hidden
 opt.wrapscan = true
-opt.signcolumn = 'yes' -- needed by git, else it constantly flashes in and out
+opt.signcolumn = "yes" -- needed by git, else it constantly flashes in and out
