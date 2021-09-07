@@ -35,14 +35,14 @@ require("packer").startup(function(use)
 		requires = {
 			"nvim-lua/plenary.nvim",
 		},
+	})
 
-		use({
-			"jose-elias-alvarez/null-ls.nvim",
-			requires = {
-				"nvim-lua/plenary.nvim",
-				"neovim/nvim-lspconfig",
-			},
-		}),
+	use({
+		"jose-elias-alvarez/null-ls.nvim",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"neovim/nvim-lspconfig",
+		},
 	})
 end)
 
@@ -152,8 +152,8 @@ local on_attach = function(client, bufnr)
 
 	if client.resolved_capabilities.document_formatting then
 		vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
+		vim.cmd([[ command! -buffer LspFormat execute 'lua vim.lsp.buf.formatting()' ]])
 	end
-	vim.cmd([[ command! LspFormat execute 'lua vim.lsp.buf.formatting()' ]])
 
 	require("lsp_signature").on_attach({
 		hint_prefix = "",
