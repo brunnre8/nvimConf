@@ -31,12 +31,6 @@ noremap("n", "<Leader>fm", ":Telescope man_pages<CR>")
 noremap("n", "<Leader>fg", ":Telescope live_grep<CR>")
 noremap("n", "<Leader>fs", ":Telescope lsp_document_symbols<CR>")
 
-noremap("i", "<C-Space>", "compe#complete()", { silent = true, expr = true })
-noremap("i", "<CR>", "compe#confirm('<CR>')", { silent = true, expr = true })
-noremap("i", "<C-e>", "compe#close('<C-e>')", { silent = true, expr = true })
-noremap("i", "<C-f>", "compe#scroll({ 'delta': +4 })", { silent = true, expr = true })
-noremap("i", "<C-d>", "compe#scroll({ 'delta': -4 })", { silent = true, expr = true })
-
 -- nmap <leader>rn <Plug>(coc-rename)
 -- " Remap keys for gotos
 -- nmap <silent> <leader>d <Plug>(coc-definition)

@@ -28,7 +28,6 @@ require("packer").startup(function(use)
 	use("nvim-treesitter/nvim-treesitter-textobjects")
 	use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
 	use("ray-x/lsp_signature.nvim")
-	use("hrsh7th/nvim-compe") -- Autocompletion plugin
 	-- use 'L3MON4D3/LuaSnip' -- Snippets plugin
 	use({
 		"lewis6991/gitsigns.nvim",
@@ -44,6 +43,24 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 		},
 	})
+
+	use({ "hrsh7th/nvim-cmp" })
+	use({ "hrsh7th/cmp-nvim-lsp" })
+	use({ "hrsh7th/cmp-path" })
+	use({ "hrsh7th/cmp-nvim-lua" })
+	use({ "hrsh7th/cmp-emoji" })
+	use({ "hrsh7th/cmp-buffer" })
+
+	use({ "windwp/nvim-autopairs" })
+
+	-- use({
+	-- 	"jose-elias-alvarez/nvim-lsp-ts-utils",
+	-- 	requires = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"neovim/nvim-lspconfig",
+	-- 		"jose-elias-alvarez/null-ls.nvim",
+	-- 	},
+	-- })
 end)
 
 require("gitsigns").setup({
@@ -76,19 +93,62 @@ require("nvim-treesitter.configs").setup({
 
 require("spellsitter").setup({ captures = { "comment", "string" } })
 
-require("compe").setup({
-	enabled = true,
-	source = {
-		path = true,
-		nvim_lsp = true,
-		luasnip = true,
-		buffer = true,
-		calc = false,
-		nvim_lua = false,
-		vsnip = false,
-		ultisnips = false,
+local cmp = require("cmp")
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			-- vim.fn["vsnip#anonymous"](args.body)
+			return nil
+		end,
 	},
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "path" },
+		{ name = "nvim_lua" },
+		{ name = "emoji" },
+		-- { name =  "buffer"}, -- can be slow
+	},
+
+	mapping = {
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-g>"] = cmp.mapping.close(),
+		["<CR>"] = cmp.mapping.confirm({
+			-- behavior = cmp.ConfirmBehavior.Insert,
+			-- select = false,
+		}),
+	},
+	preselect = cmp.PreselectMode.None,
 })
+
+require("nvim-autopairs").setup({
+	disable_filetype = { "TelescopePrompt" },
+})
+require("nvim-autopairs.completion.cmp").setup({
+	map_cr = true, --  map <CR> on insert mode
+	map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
+	auto_select = false, -- automatically select the first item
+	-- insert = false, -- use insert confirm behavior instead of replace
+	-- map_char = { -- modifies the function or method delimiter by filetypes
+	--   all = '(',
+	--   tex = '{'
+	-- }
+})
+
+-- require("compe").setup({
+-- 	enabled = true,
+-- 	source = {
+-- 		path = true,
+-- 		nvim_lsp = true,
+-- 		luasnip = true,
+-- 		buffer = true,
+-- 		calc = false,
+-- 		nvim_lua = false,
+-- 		vsnip = false,
+-- 		ultisnips = false,
+-- 	},
+-- })
 
 -- LSP settings
 
@@ -164,6 +224,7 @@ local on_attach = function(client, bufnr)
 end
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 local function lsp_server(lsp, opts)
@@ -234,6 +295,8 @@ null_ls.config({
 })
 
 lsp_server("null-ls")
+
+-- lsp_server("
 
 vim.cmd([[
 augroup formatters
