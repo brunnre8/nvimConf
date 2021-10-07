@@ -117,10 +117,11 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-g>"] = cmp.mapping.close(),
-		["<CR>"] = cmp.mapping.confirm({
+		-- <CR> is mapped by autopairs later on
+		-- ["<CR>"] = cmp.mapping.confirm({
 			-- behavior = cmp.ConfirmBehavior.Insert,
 			-- select = false,
-		}),
+		-- }),
 	},
 	preselect = cmp.PreselectMode.None,
 })
