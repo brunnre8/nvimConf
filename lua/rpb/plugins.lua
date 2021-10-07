@@ -28,7 +28,7 @@ require("packer").startup(function(use)
 	use("nvim-treesitter/nvim-treesitter-textobjects")
 	use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
 	use("ray-x/lsp_signature.nvim")
-	-- use 'L3MON4D3/LuaSnip' -- Snippets plugin
+	use("L3MON4D3/LuaSnip") -- Snippets plugin
 	use({
 		"lewis6991/gitsigns.nvim",
 		requires = {
@@ -50,6 +50,7 @@ require("packer").startup(function(use)
 	use({ "hrsh7th/cmp-nvim-lua" })
 	use({ "hrsh7th/cmp-emoji" })
 	use({ "hrsh7th/cmp-buffer" })
+	use({ "saadparwaiz1/cmp_luasnip" })
 
 	use({ "windwp/nvim-autopairs" })
 
@@ -93,11 +94,12 @@ require("nvim-treesitter.configs").setup({
 
 require("spellsitter").setup({ captures = { "comment", "string" } })
 
+local luasnip = require("luasnip")
 local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			-- vim.fn["vsnip#anonymous"](args.body)
+			luasnip.lsp_expand(args.body)
 			return nil
 		end,
 	},
@@ -106,6 +108,7 @@ cmp.setup({
 		{ name = "path" },
 		{ name = "nvim_lua" },
 		{ name = "emoji" },
+		{ name = "luasnip" },
 		-- { name =  "buffer"}, -- can be slow
 	},
 
@@ -135,20 +138,6 @@ require("nvim-autopairs.completion.cmp").setup({
 	--   tex = '{'
 	-- }
 })
-
--- require("compe").setup({
--- 	enabled = true,
--- 	source = {
--- 		path = true,
--- 		nvim_lsp = true,
--- 		luasnip = true,
--- 		buffer = true,
--- 		calc = false,
--- 		nvim_lua = false,
--- 		vsnip = false,
--- 		ultisnips = false,
--- 	},
--- })
 
 -- LSP settings
 
@@ -240,7 +229,6 @@ end
 
 lsp_server("gopls", {
 	init_options = {
-		usePlaceholders = false,
 		completeUnimported = true,
 		hoverKind = "FullDocumentation",
 		buildFlags = { "-tags", "notmuch" },
@@ -253,6 +241,7 @@ lsp_server("gopls", {
 		},
 		linksInHover = false,
 		staticcheck = true,
+		usePlaceholders = false,
 	},
 })
 
