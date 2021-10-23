@@ -43,6 +43,13 @@ require("packer").startup(function(use)
 			"neovim/nvim-lspconfig",
 		},
 	})
+	use({
+		"jose-elias-alvarez/nvim-lsp-ts-utils",
+		requires = {
+			"nvim-lua/plenary.nvim",
+			"neovim/nvim-lspconfig",
+		},
+	})
 
 	use({ "hrsh7th/nvim-cmp" })
 	use({ "hrsh7th/cmp-nvim-lsp" })
@@ -119,8 +126,8 @@ cmp.setup({
 		["<C-g>"] = cmp.mapping.close(),
 		-- <CR> is mapped by autopairs later on
 		-- ["<CR>"] = cmp.mapping.confirm({
-			-- behavior = cmp.ConfirmBehavior.Insert,
-			-- select = false,
+		-- behavior = cmp.ConfirmBehavior.Insert,
+		-- select = false,
 		-- }),
 	},
 	preselect = cmp.PreselectMode.None,
@@ -217,9 +224,16 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
-local function lsp_server(lsp, opts)
+local function lsp_server(lsp, opts, on_attach_pre)
+	local on_attach_func = on_attach
+	if on_attach_pre then
+		on_attach_func = function(client, bufnr)
+			on_attach_pre(client, bufnr)
+			on_attach(client, bufnr)
+		end
+	end
 	local options = {
-		on_attach = on_attach,
+		on_attach = on_attach_func,
 		capabilities = capabilities,
 	}
 	if opts then
@@ -249,6 +263,52 @@ lsp_server("gopls", {
 lsp_server("ccls")
 lsp_server("pylsp")
 lsp_server("bashls")
+lsp_server("tsserver", nil, function(client, bufnr)
+	-- disable tsserver formatting done via null-ls
+	client.resolved_capabilities.document_formatting = false
+	client.resolved_capabilities.document_range_formatting = false
+
+	local ts_utils = require("nvim-lsp-ts-utils")
+	ts_utils.setup({
+		-- debug = false,
+		-- disable_commands = false,
+		-- enable_import_on_completion = false,
+
+		-- IMPORT ALL
+		-- import_all_timeout = 5000, -- ms
+		-- import_all_priorities = {
+		-- 	buffers = 4, -- loaded buffer names
+		-- 	buffer_content = 3, -- loaded buffer content
+		-- 	local_files = 2, -- git files or files with relative path markers
+		-- 	same_file = 1, -- add to existing import statement
+		-- },
+		-- import_all_scan_buffers = 100,
+		-- import_all_select_source = false,
+
+		-- ESLINT
+		eslint_enable_code_actions = true,
+		eslint_enable_disable_comments = true,
+		eslint_bin = "eslint_d",
+		eslint_enable_diagnostics = false,
+		eslint_opts = {},
+
+		-- FORMATTING
+		enable_formatting = true,
+		formatter = "prettier",
+		formatter_opts = {},
+
+		-- UPDATE IMPORTS ON FILE MOVE
+		update_imports_on_move = false,
+		require_confirmation_on_move = false,
+		watch_dir = nil,
+
+		-- FILTER DIAGNOSTICS
+		-- filter_out_diagnostics_by_severity = {},
+		filter_out_diagnostics_by_code = {
+			80001, -- require js module warning
+		},
+	})
+end)
 
 local runtime_path = vim.split(package.path, ";")
 table.insert(runtime_path, "lua/?.lua")
