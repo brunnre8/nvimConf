@@ -124,28 +124,20 @@ cmp.setup({
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["<C-g>"] = cmp.mapping.close(),
-		-- <CR> is mapped by autopairs later on
+		["<CR>"] = cmp.mapping.confirm(),
 		-- ["<CR>"] = cmp.mapping.confirm({
-		-- behavior = cmp.ConfirmBehavior.Insert,
-		-- select = false,
+		-- 	behavior = cmp.ConfirmBehavior.Insert,
+		-- 	select = false,
 		-- }),
 	},
 	preselect = cmp.PreselectMode.None,
 })
 
 require("nvim-autopairs").setup({
-	disable_filetype = { "TelescopePrompt" },
+	disable_in_marcro = true,
 })
-require("nvim-autopairs.completion.cmp").setup({
-	map_cr = true, --  map <CR> on insert mode
-	map_complete = true, -- it will auto insert `(` (map_char) after select function or method item
-	auto_select = false, -- automatically select the first item
-	-- insert = false, -- use insert confirm behavior instead of replace
-	-- map_char = { -- modifies the function or method delimiter by filetypes
-	--   all = '(',
-	--   tex = '{'
-	-- }
-})
+-- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+-- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 
 -- LSP settings
 
@@ -270,37 +262,17 @@ lsp_server("tsserver", nil, function(client, bufnr)
 
 	local ts_utils = require("nvim-lsp-ts-utils")
 	ts_utils.setup({
-		-- debug = false,
-		-- disable_commands = false,
-		-- enable_import_on_completion = false,
-
-		-- IMPORT ALL
-		-- import_all_timeout = 5000, -- ms
-		-- import_all_priorities = {
-		-- 	buffers = 4, -- loaded buffer names
-		-- 	buffer_content = 3, -- loaded buffer content
-		-- 	local_files = 2, -- git files or files with relative path markers
-		-- 	same_file = 1, -- add to existing import statement
-		-- },
-		-- import_all_scan_buffers = 100,
-		-- import_all_select_source = false,
-
 		-- ESLINT
 		eslint_enable_code_actions = true,
 		eslint_enable_disable_comments = true,
 		eslint_bin = "eslint_d",
-		eslint_enable_diagnostics = false,
+		eslint_enable_diagnostics = true,
 		eslint_opts = {},
 
-		-- FORMATTING
-		enable_formatting = true,
-		formatter = "prettier",
-		formatter_opts = {},
-
-		-- UPDATE IMPORTS ON FILE MOVE
-		update_imports_on_move = false,
-		require_confirmation_on_move = false,
-		watch_dir = nil,
+		-- -- UPDATE IMPORTS ON FILE MOVE
+		-- update_imports_on_move = false,
+		-- require_confirmation_on_move = false,
+		-- watch_dir = nil,
 
 		-- FILTER DIAGNOSTICS
 		-- filter_out_diagnostics_by_severity = {},
@@ -340,6 +312,9 @@ local null_ls = require("null-ls")
 null_ls.config({
 	sources = {
 		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.prettier.with({
+			prefer_local = "node_modules/.bin",
+		}),
 	},
 	debug = false,
 })
@@ -364,3 +339,5 @@ function! SynStack()
 endfunc
 map gm :call SynStack()<CR>
 ]])
+
+vim.g.NERDTreeShowHidden = 1
