@@ -262,24 +262,12 @@ lsp_server("tsserver", nil, function(client, bufnr)
 
 	local ts_utils = require("nvim-lsp-ts-utils")
 	ts_utils.setup({
-		-- ESLINT
-		eslint_enable_code_actions = true,
-		eslint_enable_disable_comments = true,
-		eslint_bin = "eslint_d",
-		eslint_enable_diagnostics = true,
-		eslint_opts = {},
-
-		-- -- UPDATE IMPORTS ON FILE MOVE
-		-- update_imports_on_move = false,
-		-- require_confirmation_on_move = false,
-		-- watch_dir = nil,
-
-		-- FILTER DIAGNOSTICS
-		-- filter_out_diagnostics_by_severity = {},
 		filter_out_diagnostics_by_code = {
 			80001, -- require js module warning
 		},
 	})
+	-- required to fix code action ranges and filter diagnostics
+	ts_utils.setup_client(client)
 end)
 
 local runtime_path = vim.split(package.path, ";")
@@ -315,6 +303,7 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			prefer_local = "node_modules/.bin",
 		}),
+		null_ls.builtins.diagnostics.eslint_d,
 	},
 	on_attach = on_attach,
 })
