@@ -251,7 +251,7 @@ lsp_server("gopls", {
 		usePlaceholders = false,
 	},
 })
-vim.cmd("au BufRead,BufNewFile *.gotmpl set filetype=gotmpl")
+vim.cmd("au BufRead,BufNewFile *.gotmpl setlocal filetype=gotmpl")
 
 lsp_server("ccls")
 lsp_server("pylsp")
