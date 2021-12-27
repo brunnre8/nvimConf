@@ -28,7 +28,6 @@ require("packer").startup(function(use)
 	use("nvim-treesitter/nvim-treesitter-textobjects")
 	use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
 	use("ray-x/lsp_signature.nvim")
-	use("L3MON4D3/LuaSnip") -- Snippets plugin
 	use({
 		"lewis6991/gitsigns.nvim",
 		requires = {
@@ -51,24 +50,17 @@ require("packer").startup(function(use)
 		},
 	})
 
+	use({ "dcampos/nvim-snippy" })
+
 	use({ "hrsh7th/nvim-cmp" })
 	use({ "hrsh7th/cmp-nvim-lsp" })
 	use({ "hrsh7th/cmp-path" })
 	use({ "hrsh7th/cmp-nvim-lua" })
 	use({ "hrsh7th/cmp-emoji" })
 	use({ "hrsh7th/cmp-buffer" })
-	use({ "saadparwaiz1/cmp_luasnip" })
+	use("dcampos/cmp-snippy")
 
 	use({ "windwp/nvim-autopairs" })
-
-	-- use({
-	-- 	"jose-elias-alvarez/nvim-lsp-ts-utils",
-	-- 	requires = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"neovim/nvim-lspconfig",
-	-- 		"jose-elias-alvarez/null-ls.nvim",
-	-- 	},
-	-- })
 end)
 
 require("gitsigns").setup({
@@ -101,21 +93,21 @@ require("nvim-treesitter.configs").setup({
 
 require("spellsitter").setup({ captures = { "comment", "string" } })
 
-local luasnip = require("luasnip")
+local snippy = require("snippy")
 local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			luasnip.lsp_expand(args.body)
+			snippy.expand_snippet(args.body)
 			return nil
 		end,
 	},
 	sources = {
 		{ name = "nvim_lsp" },
+		{ name = "snippy" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
 		{ name = "emoji" },
-		{ name = "luasnip" },
 		-- { name =  "buffer"}, -- can be slow
 	},
 
@@ -131,6 +123,18 @@ cmp.setup({
 		-- }),
 	},
 	preselect = cmp.PreselectMode.None,
+})
+
+snippy.setup({
+	mappings = {
+		is = {
+			["<Tab>"] = "expand_or_advance",
+			["<S-Tab>"] = "previous",
+		},
+		-- nx = {
+		-- 	["<leader>x"] = "cut_text",
+		-- },
+	},
 })
 
 require("nvim-autopairs").setup({
