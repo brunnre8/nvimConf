@@ -34,7 +34,7 @@ snippet fun "Standard function"
 	}
 
 snippet meth "Standard method"
-	(${1})func${2}(${3})${4} {
+	func (${1}) ${2}(${3})${4} {
 		${0}
 	}
 
@@ -53,8 +53,13 @@ snippet switch "switch"
 		${0}
 	}
 
-snippet hf "func(w http.ResponseWriter, r *http.Request)"
-	func${1}(w http.ResponseWriter, r *http.Request) {
+snippet hf "func(w http.ResponseWriter, req *http.Request)"
+	func {1}(w http.ResponseWriter, req *http.Request) {
+		${0}
+	}
+
+snippet hfs "Handler func (t T) ServeHTTP(w http.ResponseWriter, req *http.Request)"
+	func (${1}) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		${0}
 	}
 
@@ -79,3 +84,15 @@ snippet ttest "table driven test"
 			})
 		}
 	}
+
+snippet terr "error the test"
+	if err != nil {
+		t.Fatalf("${1}", ${2}err)
+	}
+	${0}
+
+snippet tc "test case"
+	if ${1} != ${2} {
+		t.Fatalf("${3}: want ${4:%v}, got ${4}", ${2}, ${1})
+	}
+	${0}
