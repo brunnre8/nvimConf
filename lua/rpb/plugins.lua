@@ -91,7 +91,7 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
-require("spellsitter").setup({ captures = { "comment", "string" } })
+require("spellsitter").setup()
 
 local snippy = require("snippy")
 local cmp = require("cmp")
