@@ -27,6 +27,6 @@ noremap("n", "<Leader>gs", ":Gtabedit :<CR>")
 -- telescope stuff
 noremap("n", "<Leader>fb", ":Telescope buffers<CR>")
 noremap("n", "<Leader>ff", ":Telescope find_files<CR>")
-noremap("n", "<Leader>fm", ":Telescope man_pages<CR>")
+noremap("n", "<Leader>fm", ":lua require('telescope.builtin').man_pages({ sections = {\"ALL\"} })<CR>")
 noremap("n", "<Leader>fg", ":Telescope live_grep<CR>")
 noremap("n", "<Leader>fs", ":Telescope lsp_document_symbols<CR>")
