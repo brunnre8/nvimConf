@@ -201,7 +201,7 @@ local on_attach = function(client, bufnr)
 		"<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>",
 		opts
 	)
-	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", opts)
+	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
 	if client.resolved_capabilities.document_formatting then
 		vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
