@@ -206,9 +206,11 @@ local on_attach = function(client, bufnr)
 	if client.resolved_capabilities.document_formatting then
 		vim.cmd("augroup lspFormat")
 		vim.cmd("autocmd!")
-		vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
+		-- keepjumps prevents the change- and jump-list from being modified among other things
+		-- keeppatterns prevents things from modifying search patterns, not that it should matter here
+		vim.cmd("autocmd BufWritePre <buffer> keepjumps keeppatterns lua vim.lsp.buf.formatting_sync(nil, 1000)")
 		vim.cmd("augroup end")
-		vim.cmd([[ command! -buffer LspFormat execute 'lua vim.lsp.buf.formatting()' ]])
+		vim.cmd([[ command! -buffer LspFormat execute 'keepjumps keeppatterns lua vim.lsp.buf.formatting()' ]])
 	end
 
 	require("lsp_signature").on_attach({
