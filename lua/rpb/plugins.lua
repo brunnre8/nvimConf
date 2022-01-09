@@ -204,7 +204,10 @@ local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
 
 	if client.resolved_capabilities.document_formatting then
+		vim.cmd("augroup lspFormat")
+		vim.cmd("autocmd!")
 		vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync(nil, 1000)")
+		vim.cmd("augroup end")
 		vim.cmd([[ command! -buffer LspFormat execute 'lua vim.lsp.buf.formatting()' ]])
 	end
 
