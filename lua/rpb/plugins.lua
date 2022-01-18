@@ -316,6 +316,7 @@ null_ls.setup({
 		null_ls.builtins.diagnostics.eslint_d,
 	},
 	on_attach = on_attach,
+	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
 })
 
 -- lsp_server("
