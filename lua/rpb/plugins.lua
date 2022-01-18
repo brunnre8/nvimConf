@@ -144,6 +144,7 @@ require("nvim-autopairs").setup({
 -- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 
 -- LSP settings
+vim.diagnostic.config({ virtual_text = { source = true } })
 local lspconfig = require("lspconfig")
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
