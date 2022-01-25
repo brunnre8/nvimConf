@@ -223,7 +223,13 @@ lsp_server("gopls", {
 vim.cmd("au BufRead,BufNewFile *.gotmpl setlocal filetype=gotmpl")
 
 lsp_server("ccls")
-lsp_server("pylsp")
+lsp_server("pylsp", {
+	settings = {
+		pylsp = {
+			configurationSources = { "pyflakes" },
+		},
+	},
+})
 lsp_server("bashls")
 lsp_server("tsserver", nil, function(client, bufnr)
 	-- disable tsserver formatting done via null-ls
