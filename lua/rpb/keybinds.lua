@@ -25,6 +25,7 @@ noremap("n", "<Leader>z", ":tab split<CR>")
 noremap("n", "<Leader>m", ":silent make<CR>")
 noremap("n", "<Leader>gs", ":Gtabedit :<CR>")
 -- telescope stuff
+noremap("n", "<Leader>fr", ":Telescope resume<CR>")
 noremap("n", "<Leader>fb", ":Telescope buffers<CR>")
 noremap("n", "<Leader>ff", ":Telescope find_files<CR>")
 noremap("n", "<Leader>fm", ":lua require('telescope.builtin').man_pages({ sections = {\"ALL\"} })<CR>")
