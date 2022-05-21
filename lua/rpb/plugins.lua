@@ -64,7 +64,8 @@ require("packer").startup(function(use)
 	use({ "windwp/nvim-autopairs" })
 end)
 
-require("gitsigns").setup({
+local gitsigns = require("gitsigns")
+gitsigns.setup({
 	signs = {
 		add = { hl = "GitSignsAdd", text = "│", numhl = "GitSignsAddNr", linehl = "GitSignsAddLn" },
 		change = { hl = "GitSignsChange", text = "│", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
@@ -73,8 +74,31 @@ require("gitsigns").setup({
 		changedelete = { hl = "GitSignsChange", text = "|", numhl = "GitSignsChangeNr", linehl = "GitSignsChangeLn" },
 	},
 	on_attach = function(bufnr)
-		vim.keymap.set("n", "]c", "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true, buffer = bufnr or 0 })
-		vim.keymap.set("n", "[c", "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true, buffer = bufnr or 0 })
+		local function map(mode, l, r, opts)
+			opts = opts or {}
+			opts.buffer = bufnr
+			vim.keymap.set(mode, l, r, opts)
+		end
+
+		map("n", "]c", function()
+			if vim.wo.diff then
+				return "]c"
+			end
+			vim.schedule(function()
+				gitsigns.next_hunk()
+			end)
+			return "<Ignore>"
+		end, { expr = true })
+
+		map("n", "[c", function()
+			if vim.wo.diff then
+				return "[c"
+			end
+			vim.schedule(function()
+				gitsigns.prev_hunk()
+			end)
+			return "<Ignore>"
+		end, { expr = true })
 	end,
 })
 
