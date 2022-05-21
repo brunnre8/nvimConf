@@ -204,7 +204,10 @@ require("nvim-autopairs").setup({
 
 -- LSP settings
 vim.diagnostic.config({ virtual_text = { source = true } })
+
 local lspconfig = require("lspconfig")
+
+local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 	local opts = { noremap = true, silent = true }
@@ -221,15 +224,26 @@ local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({float = false})<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ldl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
+	require("rpb/globals").P(client)
 
-	if client.resolved_capabilities.document_formatting then
-		vim.cmd("augroup lspFormat")
-		vim.cmd("autocmd!")
-		-- keepjumps prevents the change- and jump-list from being modified among other things
-		-- keeppatterns prevents things from modifying search patterns, not that it should matter here
-		vim.cmd("autocmd BufWritePre <buffer> keepjumps keeppatterns lua vim.lsp.buf.formatting_seq_sync(nil, 1000)")
-		vim.cmd("augroup end")
-		vim.cmd([[ command! -buffer LspFormat execute 'keepjumps keeppatterns lua vim.lsp.buf.formatting()' ]])
+	if client.server_capabilities.documentFormattingProvider then
+		vim.api.nvim_clear_autocmds({ group = lsp_au, buffer = bufnr })
+		vim.api.nvim_create_autocmd("BufWritePre", {
+			group = lsp_au,
+			buffer = bufnr,
+			callback = function(ev)
+				vim.lsp.buf.format({
+					filter = function(clients)
+						-- filter out clients that you don't want to use
+						return vim.tbl_filter(function(c)
+							return c.name ~= "tsserver"
+						end, clients)
+					end,
+					bufnr = ev.buf,
+					timeout_ms = nil,
+				})
+			end,
+		})
 	end
 
 	require("lsp_signature").on_attach({
@@ -292,8 +306,9 @@ lsp_server("pylsp", {
 lsp_server("bashls")
 lsp_server("tsserver", nil, function(client, bufnr)
 	-- disable tsserver formatting done via null-ls
-	client.resolved_capabilities.document_formatting = false
-	client.resolved_capabilities.document_range_formatting = false
+	client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentRangeFormattingProvider = false
+	client.server_capabilities.documentOnTypeFormattingProvider = false
 
 	local ts_utils = require("nvim-lsp-ts-utils")
 	ts_utils.setup({
