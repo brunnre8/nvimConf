@@ -305,24 +305,22 @@ lsp_server("tsserver", nil, function(client, bufnr)
 	ts_utils.setup_client(client)
 end)
 
-local runtime_path = vim.split(package.path, ";")
-table.insert(runtime_path, "lua/?.lua")
-table.insert(runtime_path, "lua/?/init.lua")
--- table.insert(runtime_path,vim.fn.expand('$VIMRUNTIME/lua'))
--- table.insert(runtime_path,vim.fn.expand('$VIMRUNTIME/lua/vim/lsp'))
 lsp_server("sumneko_lua", {
 	cmd = { "/usr/bin/lua-language-server" },
 	settings = {
 		Lua = {
 			runtime = {
 				version = "LuaJIT", -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-				path = runtime_path, -- Setup your lua path
+				path = vim.split(package.path, ";"), -- Setup your lua path
 			},
 			diagnostics = {
 				globals = { "vim" }, -- Get the language server to recognize the `vim` global
 			},
 			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
+				library = {
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+				},
 			},
 			telemetry = {
 				enable = false,
