@@ -207,7 +207,6 @@ vim.diagnostic.config({ virtual_text = { source = true } })
 
 local lspconfig = require("lspconfig")
 
-local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
 local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 	local opts = { noremap = true, silent = true }
@@ -227,7 +226,7 @@ local on_attach = function(client, bufnr)
 	require("rpb/globals").P(client)
 
 	if client.server_capabilities.documentFormattingProvider then
-		vim.api.nvim_clear_autocmds({ group = lsp_au, buffer = bufnr })
+		local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			group = lsp_au,
 			buffer = bufnr,
