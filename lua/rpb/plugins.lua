@@ -247,7 +247,6 @@ local on_attach = function(client, bufnr)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "]d", "<cmd>lua vim.diagnostic.goto_next({float = false})<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>ldl", "<cmd>lua vim.diagnostic.open_float()<CR>", opts)
 	vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>la", "<cmd>lua vim.diagnostic.setloclist()<CR>", opts)
-	require("rpb/globals").P(client)
 
 	if client.server_capabilities.documentFormattingProvider then
 		local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
