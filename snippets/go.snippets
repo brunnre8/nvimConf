@@ -1,50 +1,40 @@
 snippet pf "fmt.Printf()"
 	fmt.Printf("%${1:s}\n", ${2:var})
-
 snippet pl "fmt.Println()"
 	fmt.Println("${1:s}")
-
 snippet errh "handle error"
 	if err != nil {
 		${1}
 	}
 	${0}
-
 snippet errr "return error"
 	if err != nil {
 		return ${1}err
 	}
 	${0}
-
 snippet errd "error die"
 	if err != nil {
 		log.Fatal(err)
 	}
 	${0}
-
 snippet errf "error to file"
 	if err != nil {
 		fmt.Fprintf(${1}, err)
 	}
 	${0}
-
 snippet fun "Standard function"
 	func${1}(${2}) {
 		${0}
 	}
-
 snippet meth "Standard method"
 	func (${1}) ${2}(${3})${4} {
 		${0}
 	}
-
 snippet main "package main"
 	package main
-
 	func main() {
 		${0}
 	}
-
 snippet switch "switch"
 	switch ${1:var} {
 	case ${2:value1}:
@@ -52,22 +42,18 @@ snippet switch "switch"
 	default:
 		${0}
 	}
-
 snippet hf "func(w http.ResponseWriter, req *http.Request)"
 	func {1}(w http.ResponseWriter, req *http.Request) {
 		${0}
 	}
-
 snippet hfs "Handler func (t T) ServeHTTP(w http.ResponseWriter, req *http.Request)"
 	func (${1}) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 		${0}
 	}
-
 snippet test "test function"
 	func Test${1:name}(t *testing.T) {
 		${0:${VISUAL}}
 	}
-
 snippet ttest "table driven test"
 	func Test${1:name}(t *testing.T) {
 		tests := []struct {
@@ -77,20 +63,17 @@ snippet ttest "table driven test"
 				name: "${2:test name}",
 			},
 		}
-
 		for _, test := range tests {
 			t.Run(test.name, func(t *testing.T) {
 				${0:${VISUAL}}
 			})
 		}
 	}
-
 snippet terr "error the test"
 	if err != nil {
 		t.Fatalf("${1}", ${2}err)
 	}
 	${0}
-
 snippet tc "test case"
 	if ${1} != ${2} {
 		t.Fatalf("${3}: want ${4:%v}, got ${4}", ${2}, ${1})
