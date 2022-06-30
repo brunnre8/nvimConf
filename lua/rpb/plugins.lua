@@ -256,11 +256,8 @@ local on_attach = function(client, bufnr)
 			buffer = bufnr,
 			callback = function(ev)
 				vim.lsp.buf.format({
-					filter = function(clients)
-						-- filter out clients that you don't want to use
-						return vim.tbl_filter(function(c)
-							return c.name ~= "tsserver"
-						end, clients)
+					filter = function(client_)
+						return client_.name ~= "tsserver"
 					end,
 					bufnr = ev.buf,
 					timeout_ms = nil,
