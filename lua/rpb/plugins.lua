@@ -24,7 +24,6 @@ require("packer").startup(function(use)
 	-- Highlight, edit, and navigate code using a fast incremental parsing library
 	use("nvim-treesitter/nvim-treesitter")
 	use("nvim-treesitter/playground")
-	use("lewis6991/spellsitter.nvim") -- treesitter messes up the spell detection of nvim
 	-- Additional textobjects for treesitter
 	use("nvim-treesitter/nvim-treesitter-textobjects")
 	use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
@@ -172,8 +171,6 @@ require("telescope").setup({
 -- To get ui-select loaded and working with telescope, you need to call
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
-
-require("spellsitter").setup()
 
 local snippy = require("snippy")
 local cmp = require("cmp")
