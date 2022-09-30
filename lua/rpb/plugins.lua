@@ -371,7 +371,9 @@ null_ls.setup({
 			prefer_local = "node_modules/.bin",
 		}),
 		null_ls.builtins.formatting.goimports,
-		null_ls.builtins.diagnostics.eslint_d,
+		null_ls.builtins.diagnostics.eslint_d.with({
+			prefer_local = "node_modules/.bin",
+		}),
 	},
 	on_attach = on_attach,
 	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
