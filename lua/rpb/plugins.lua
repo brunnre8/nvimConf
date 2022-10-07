@@ -113,7 +113,6 @@ require("nvim-treesitter.configs").setup({
 		"gomod",
 		"gowork",
 		"graphql",
-		"help",
 		"html",
 		"http",
 		"java",
