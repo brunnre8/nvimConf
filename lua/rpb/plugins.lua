@@ -191,7 +191,6 @@ cmp.setup({
 		{ name = "emoji" },
 		-- { name =  "buffer"}, -- can be slow
 	},
-
 	mapping = {
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -337,23 +336,24 @@ lsp_server("tsserver", nil, function(client, bufnr)
 	ts_utils.setup_client(client)
 end)
 
-lsp_server("sumneko_lua", {
-	cmd = { "/usr/bin/lua-language-server" },
+lsp_server("volar")
+
+lsp_server("lua_ls", {
 	settings = {
 		Lua = {
 			runtime = {
-				version = "LuaJIT", -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
-				path = vim.split(package.path, ";"), -- Setup your lua path
+				-- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+				version = "LuaJIT",
 			},
 			diagnostics = {
-				globals = { "vim" }, -- Get the language server to recognize the `vim` global
+				-- Get the language server to recognize the `vim` global
+				globals = { "vim" },
 			},
 			workspace = {
-				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-				},
+				-- Make the server aware of Neovim runtime files
+				library = vim.api.nvim_get_runtime_file("", true),
 			},
+			-- Do not send telemetry data containing a randomized but unique identifier
 			telemetry = {
 				enable = false,
 			},
