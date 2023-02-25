@@ -56,3 +56,13 @@ opt.smartcase = true -- case insensitive search except one uses uppercase letter
 opt.hidden = true -- modified buffers can be hidden
 opt.wrapscan = true
 opt.signcolumn = "yes" -- needed by git, else it constantly flashes in and out
+
+opt.foldmethod = "expr"
+opt.foldnestmax = 3
+opt.foldenable = false
+opt.foldlevel = 0
+opt.fillchars = {
+	fold = " ",
+}
+
+vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
