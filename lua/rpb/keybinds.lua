@@ -3,7 +3,7 @@ local function noremap(mode, lhs, rhs, opts)
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
 	end
-	vim.api.nvim_set_keymap(mode, lhs, rhs, options)
+	vim.keymap.set(mode, lhs, rhs, options)
 end
 
 vim.g.mapleader = ","
@@ -25,10 +25,15 @@ noremap("n", "<Leader>z", ":tab split<CR>")
 noremap("n", "<Leader>m", ":silent make<CR>")
 noremap("n", "<Leader>gs", ":Gtabedit :<CR>")
 -- telescope stuff
-noremap("n", "<Leader>fr", ":Telescope resume<CR>")
-noremap("n", "<Leader>fb", ":Telescope buffers<CR>")
-noremap("n", "<Leader>ff", ":Telescope find_files<CR>")
-noremap("n", "<Leader>fh", ":Telescope help_tags<CR>")
-noremap("n", "<Leader>fm", ":lua require('telescope.builtin').man_pages({ sections = {\"ALL\"} })<CR>")
-noremap("n", "<Leader>fg", ":Telescope live_grep<CR>")
-noremap("n", "<Leader>fs", ":Telescope lsp_document_symbols<CR>")
+local pickers = require("telescope.builtin")
+noremap("n", "<Leader>fr", pickers.resume)
+noremap("n", "<Leader>fb", pickers.buffers)
+noremap("n", "<Leader>ff", pickers.find_files)
+noremap("n", "<Leader>fj", pickers.jumplist)
+noremap("n", "<Leader>fc", pickers.command_history)
+noremap("n", "<Leader>fh", pickers.help_tags)
+noremap("n", "<Leader>fm", function()
+	pickers.man_pages({ sections = { "ALL" } })
+end)
+noremap("n", "<Leader>fg", pickers.live_grep)
+noremap("n", "<Leader>fs", pickers.lsp_workspace_symbols)
