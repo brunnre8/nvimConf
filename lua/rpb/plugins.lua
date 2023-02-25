@@ -244,7 +244,7 @@ snippy.setup({
 })
 
 require("nvim-autopairs").setup({
-	disable_in_marcro = true,
+	disable_in_macro = true,
 })
 -- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 -- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
