@@ -64,5 +64,4 @@ opt.foldlevel = 0
 opt.fillchars = {
 	fold = " ",
 }
-
-vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
