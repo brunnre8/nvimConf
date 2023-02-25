@@ -254,6 +254,20 @@ vim.diagnostic.config({ virtual_text = { source = true } })
 
 local lspconfig = require("lspconfig")
 
+local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = lsp_au,
+	callback = function(ev)
+		vim.lsp.buf.format({
+			filter = function(client_)
+				return client_.name ~= "tsserver"
+			end,
+			bufnr = ev.buf,
+			timeout_ms = nil,
+		})
+	end,
+})
+
 local on_attach = function(client, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<leader>D", vim.lsp.buf.declaration, opts)
@@ -270,23 +284,6 @@ local on_attach = function(client, bufnr)
 	local pickers = require("telescope.builtin")
 	vim.keymap.set("n", "<leader>li", pickers.lsp_implementations, opts)
 	vim.keymap.set("n", "<leader>lr", pickers.lsp_references, opts)
-
-	if client.server_capabilities.documentFormattingProvider then
-		local lsp_au = vim.api.nvim_create_augroup("LspFormatting", {})
-		vim.api.nvim_create_autocmd("BufWritePre", {
-			group = lsp_au,
-			buffer = bufnr,
-			callback = function(ev)
-				vim.lsp.buf.format({
-					filter = function(client_)
-						return client_.name ~= "tsserver"
-					end,
-					bufnr = ev.buf,
-					timeout_ms = nil,
-				})
-			end,
-		})
-	end
 
 	require("lsp_signature").on_attach({
 		hint_prefix = "",
