@@ -21,12 +21,19 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
-opt.formatoptions = opt.formatoptions
-	- "t" -- Auto-wrap text using textwidth
-	- "o" -- O and o, don't continue comments
-	- "r" -- Automatically insert the current comment leader after hitting <Enter> in Insert mode.
-	+ "n" -- Indent past the formatlistpat, not underneath it. Makes a paragraph after a numbered list for example
-	+ "j" -- Auto-remove comments if possible.
+local fo_au = vim.api.nvim_create_augroup("FormatOpts", {})
+vim.api.nvim_create_autocmd("FileType", {
+	group = fo_au,
+	callback = function()
+		opt.formatoptions = opt.formatoptions
+			- "t" -- Auto-wrap text using textwidth
+			- "c" -- Auto-wrap comments using textwidth
+			- "o" -- O and o, don't continue comments
+			- "r" -- Automatically insert the current comment leader after hitting <Enter> in Insert mode.
+			+ "n" -- Indent past the formatlistpat, not underneath it. Makes a paragraph after a numbered list for example
+			+ "j" -- Auto-remove comments if possible.
+	end,
+})
 
 opt.modeline = false
 opt.linebreak = true
