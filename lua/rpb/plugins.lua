@@ -149,7 +149,29 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
+-- https://github.com/nvim-telescope/telescope.nvim/issues/559
+-- essentially the pickers don't work with folds if the selection is done from insert mode
+local function stopinsert(callback)
+	return function(prompt_bufnr)
+		vim.cmd.stopinsert()
+		vim.schedule(function()
+			callback(prompt_bufnr)
+		end)
+	end
+end
+
+local actions = require("telescope.actions")
 require("telescope").setup({
+	defaults = {
+		mappings = {
+			i = {
+				["<CR>"] = stopinsert(actions.select_default),
+				["<C-x>"] = stopinsert(actions.select_horizontal),
+				["<C-v>"] = stopinsert(actions.select_vertical),
+				["<C-t>"] = stopinsert(actions.select_tab),
+			},
+		},
+	},
 	extensions = {
 		["ui-select"] = {
 			require("telescope.themes").get_dropdown({
