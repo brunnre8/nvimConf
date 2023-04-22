@@ -5,23 +5,19 @@ snippet pl "fmt.Println()"
 snippet errh "handle error"
 	if err != nil {
 		${1}
-	}
-	${0}
+	}${0}
 snippet errr "return error"
 	if err != nil {
 		return ${1}err
-	}
-	${0}
+	}${0}
 snippet errd "error die"
 	if err != nil {
 		log.Fatal(err)
-	}
-	${0}
+	}${0}
 snippet errf "error to file"
 	if err != nil {
 		fmt.Fprintf(${1}, err)
-	}
-	${0}
+	}${0}
 snippet fun "Standard function"
 	func${1}(${2}) {
 		${0}
@@ -73,10 +69,8 @@ snippet ttest "table driven test"
 snippet terr "error the test"
 	if err != nil {
 		t.Fatalf("${1}", ${2}err)
-	}
-	${0}
+	}${0}
 snippet tc "test case"
 	if ${1} != ${2} {
 		t.Fatalf("${3}: want ${4:%v}, got ${4}", ${2}, ${1})
-	}
-	${0}
+	}${0}
