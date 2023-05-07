@@ -7,10 +7,6 @@
 local cmd = vim.cmd
 local opt = vim.opt
 
-cmd("filetype plugin on")
-cmd("filetype indent on")
-cmd("syntax enable")
-
 cmd([[colorscheme gruvbox]])
 
 local yank_au = vim.api.nvim_create_augroup("YankHighlight", {})
