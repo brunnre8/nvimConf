@@ -367,6 +367,13 @@ end)
 
 lsp_server("volar")
 
+lsp_server("html", {
+	filetypes = { "html", "gohtml.html" },
+	init_options = {
+		provideFormatter = true,
+	},
+})
+
 lsp_server("lua_ls", {
 	settings = {
 		Lua = {
