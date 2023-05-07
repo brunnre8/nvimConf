@@ -316,10 +316,10 @@ local function lsp_server(lsp, opts, on_attach_pre)
 end
 
 lsp_server("gopls", {
+	filetypes = { "go", "gomod", "gowork", "gohtml.html" },
 	init_options = {
 		completeUnimported = true,
 		hoverKind = "FullDocumentation",
-		buildFlags = { "-tags", "notmuch" },
 		analyses = {
 			composites = false,
 			fillreturns = true,
@@ -330,9 +330,15 @@ lsp_server("gopls", {
 		linksInHover = false,
 		staticcheck = true,
 		usePlaceholders = false,
+		templateExtensions = { "gohtml" },
 	},
 })
-vim.cmd("au BufRead,BufNewFile *.gotmpl setlocal filetype=gotmpl")
+
+vim.filetype.add({
+	extension = {
+		gohtml = "gohtml.html",
+	},
+})
 
 lsp_server("ccls")
 lsp_server("pylsp", {
