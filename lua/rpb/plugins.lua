@@ -62,7 +62,7 @@ require("packer").startup(function(use)
 
 	use({ "windwp/nvim-autopairs" })
 
-	use({ "rrethy/vim-hexokinase", run = "make hexokinase" })
+	-- use({ "rrethy/vim-hexokinase", run = "make hexokinase" })
 end)
 
 local gitsigns = require("gitsigns")
