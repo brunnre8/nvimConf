@@ -365,7 +365,11 @@ lsp_server("tsserver", nil, function(client, bufnr)
 	ts_utils.setup_client(client)
 end)
 
-lsp_server("volar")
+lsp_server("volar", nil, function(client, bufnr)
+	client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentRangeFormattingProvider = false
+	client.server_capabilities.documentOnTypeFormattingProvider = false
+end)
 
 lsp_server("html", {
 	filetypes = { "html", "gohtml.html" },
