@@ -377,6 +377,7 @@ lsp_server("html", {
 		provideFormatter = true,
 	},
 })
+lsp_server("cssls")
 
 lsp_server("lua_ls", {
 	settings = {
