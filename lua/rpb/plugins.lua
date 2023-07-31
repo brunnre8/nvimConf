@@ -268,6 +268,12 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 		})
 	end,
 })
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = lsp_au,
+	callback = function()
+		vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
+	end,
+})
 
 local on_attach = function(client, bufnr)
 	local opts = { noremap = true, silent = true, buffer = bufnr }
@@ -331,6 +337,9 @@ lsp_server("gopls", {
 		staticcheck = true,
 		usePlaceholders = false,
 		templateExtensions = { "gohtml" },
+		hints = {
+			constantValues = true,
+		},
 	},
 })
 
@@ -409,7 +418,6 @@ null_ls.setup({
 		null_ls.builtins.formatting.prettier.with({
 			prefer_local = "node_modules/.bin",
 		}),
-		null_ls.builtins.formatting.goimports,
 		null_ls.builtins.diagnostics.eslint_d.with({
 			prefer_local = "node_modules/.bin",
 		}),
