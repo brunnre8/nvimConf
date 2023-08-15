@@ -270,6 +270,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
+	pattern = { "*.go" },
 	callback = function()
 		vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
 		local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding())
