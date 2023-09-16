@@ -1,69 +1,82 @@
-require("packer").startup(function(use)
-	-- Packer can manage itself
-	use("wbthomason/packer.nvim")
-
-	--use "wbthomason/lsp-status.nvim"
-	use({ "brunnre8/gruvbox.nvim", requires = { "rktjmp/lush.nvim" } })
-
-	use("tpope/vim-repeat")
-	use("tpope/vim-surround")
-	use("tpope/vim-commentary")
-	use("tpope/vim-fugitive")
-
-	use({
-		"nvim-telescope/telescope.nvim",
-		requires = {
-			{ "nvim-lua/popup.nvim" },
-			{ "nvim-lua/plenary.nvim" },
-		},
+-- auto fetch the package manager
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
 	})
-	use({ "nvim-telescope/telescope-ui-select.nvim" })
+end
+vim.opt.rtp:prepend(lazypath)
 
-	use("scrooloose/nerdtree")
+require("lazy").setup({
+	{
+		"brunnre8/gruvbox.nvim",
+		dependencies = { "rktjmp/lush.nvim" },
+		priority = 1000,
+		lazy = false,
+		config = function()
+			-- load the colorscheme here
+			vim.cmd([[colorscheme gruvbox]])
+		end,
+	},
+	"tpope/vim-repeat",
+	"tpope/vim-surround",
+	"tpope/vim-commentary",
+	"tpope/vim-fugitive",
+	{
+		"nvim-telescope/telescope.nvim",
+		dependencies = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+	},
+	"nvim-telescope/telescope-ui-select.nvim",
+
+	"scrooloose/nerdtree",
 
 	-- Highlight, edit, and navigate code using a fast incremental parsing library
-	use("nvim-treesitter/nvim-treesitter")
-	use("nvim-treesitter/playground")
+	"nvim-treesitter/nvim-treesitter",
 	-- Additional textobjects for treesitter
-	use("nvim-treesitter/nvim-treesitter-textobjects")
-	use("neovim/nvim-lspconfig") -- Collection of configurations for built-in LSP client
-	use("ray-x/lsp_signature.nvim")
-	use({
+	"nvim-treesitter/nvim-treesitter-textobjects",
+	"neovim/nvim-lspconfig", -- Collection of configurations for built-in LSP client
+	"ray-x/lsp_signature.nvim",
+	{
 		"lewis6991/gitsigns.nvim",
-		requires = {
+		dependencies = {
 			"nvim-lua/plenary.nvim",
 		},
-	})
+	},
 
-	use({
-		"jose-elias-alvarez/null-ls.nvim",
-		requires = {
-			"nvim-lua/plenary.nvim",
-			"neovim/nvim-lspconfig",
-		},
-	})
-	use({
+	-- {
+	-- 	"jose-elias-alvarez/null-ls.nvim",
+	-- 	dependencies = {
+	-- 		"nvim-lua/plenary.nvim",
+	-- 		"neovim/nvim-lspconfig",
+	-- 	},
+	-- },
+	{
 		"jose-elias-alvarez/nvim-lsp-ts-utils",
-		requires = {
+		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"neovim/nvim-lspconfig",
 		},
-	})
+	},
 
-	use({ "dcampos/nvim-snippy" })
+	"dcampos/nvim-snippy",
 
-	use({ "hrsh7th/nvim-cmp" })
-	use({ "hrsh7th/cmp-nvim-lsp" })
-	use({ "hrsh7th/cmp-path" })
-	use({ "hrsh7th/cmp-nvim-lua" })
-	use({ "hrsh7th/cmp-emoji" })
-	use({ "hrsh7th/cmp-buffer" })
-	use("dcampos/cmp-snippy")
-
-	use({ "windwp/nvim-autopairs" })
-
-	-- use({ "rrethy/vim-hexokinase", run = "make hexokinase" })
-end)
+	"hrsh7th/nvim-cmp",
+	"hrsh7th/cmp-nvim-lsp",
+	"hrsh7th/cmp-path",
+	"hrsh7th/cmp-nvim-lua",
+	"hrsh7th/cmp-emoji",
+	"hrsh7th/cmp-buffer",
+	"dcampos/cmp-snippy",
+	"windwp/nvim-autopairs",
+})
 
 local gitsigns = require("gitsigns")
 gitsigns.setup({
@@ -247,6 +260,13 @@ snippy.setup({
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
 })
+
+-- require("nvim-highlight-colors").setup({
+-- 	render = "first_column", -- 'background' or 'foreground' or 'first_column'
+-- 	enable_named_colors = true,
+-- 	enable_tailwind = false,
+-- })
+
 -- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 -- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 
@@ -425,20 +445,20 @@ lsp_server("lua_ls", {
 	},
 })
 
-local null_ls = require("null-ls")
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.prettier.with({
-			prefer_local = "node_modules/.bin",
-		}),
-		null_ls.builtins.diagnostics.eslint_d.with({
-			prefer_local = "node_modules/.bin",
-		}),
-	},
-	on_attach = on_attach,
-	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
-})
+-- local null_ls = require("null-ls")
+-- null_ls.setup({
+-- 	sources = {
+-- 		null_ls.builtins.formatting.stylua,
+-- 		null_ls.builtins.formatting.prettier.with({
+-- 			prefer_local = "node_modules/.bin",
+-- 		}),
+-- 		null_ls.builtins.diagnostics.eslint_d.with({
+-- 			prefer_local = "node_modules/.bin",
+-- 		}),
+-- 	},
+-- 	on_attach = on_attach,
+-- 	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
+-- })
 
 vim.cmd([[
 function! SynStack()
