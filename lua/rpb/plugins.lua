@@ -51,13 +51,13 @@ require("lazy").setup({
 		},
 	},
 
-	-- {
-	-- 	"jose-elias-alvarez/null-ls.nvim",
-	-- 	dependencies = {
-	-- 		"nvim-lua/plenary.nvim",
-	-- 		"neovim/nvim-lspconfig",
-	-- 	},
-	-- },
+	{
+		"jose-elias-alvarez/null-ls.nvim",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"neovim/nvim-lspconfig",
+		},
+	},
 	{
 		"jose-elias-alvarez/nvim-lsp-ts-utils",
 		dependencies = {
@@ -452,20 +452,17 @@ lsp_server("lua_ls", {
 	},
 })
 
--- local null_ls = require("null-ls")
--- null_ls.setup({
--- 	sources = {
--- 		null_ls.builtins.formatting.stylua,
--- 		null_ls.builtins.formatting.prettier.with({
--- 			prefer_local = "node_modules/.bin",
--- 		}),
--- 		null_ls.builtins.diagnostics.eslint_d.with({
--- 			prefer_local = "node_modules/.bin",
--- 		}),
--- 	},
--- 	on_attach = on_attach,
--- 	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
--- })
+local null_ls = require("null-ls")
+null_ls.setup({
+	sources = {
+		null_ls.builtins.formatting.stylua,
+		null_ls.builtins.formatting.prettier.with({
+			prefer_local = "node_modules/.bin",
+		}),
+	},
+	on_attach = on_attach,
+	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
+})
 
 vim.cmd([[
 function! SynStack()
