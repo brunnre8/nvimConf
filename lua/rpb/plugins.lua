@@ -139,6 +139,7 @@ require("nvim-treesitter.configs").setup({
 		"make",
 		"markdown",
 		"markdown_inline",
+		"query",
 		"python",
 		"regex",
 		"ruby",
