@@ -291,6 +291,11 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
+	pattern = { "*.js", "*.ts", "*.vue" },
+	command = "EslintFixAll",
+})
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = lsp_au,
 	pattern = { "*.go" },
 	callback = function()
 		vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" } }, apply = true })
@@ -422,6 +427,7 @@ lsp_server("html", {
 	},
 })
 lsp_server("cssls")
+lsp_server("eslint")
 
 lsp_server("lua_ls", {
 	settings = {
