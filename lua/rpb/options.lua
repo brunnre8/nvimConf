@@ -23,6 +23,13 @@ vim.api.nvim_create_autocmd("FileType", {
 	end,
 })
 
+-- we want to navigate backwards, not forwards usually
+local tabgroup = vim.api.nvim_create_augroup("tabgroup", {})
+vim.api.nvim_create_autocmd("TabClosed", {
+	group = tabgroup,
+	command = "tabprev",
+})
+
 opt.modeline = false
 opt.linebreak = true
 opt.number = true
