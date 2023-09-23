@@ -1,17 +1,16 @@
 local cmd = vim.cmd
 local opt = vim.opt
 
-local yank_au = vim.api.nvim_create_augroup("YankHighlight", {})
+local au_group_opts = vim.api.nvim_create_augroup("rpb_options", {})
 vim.api.nvim_create_autocmd("TextYankPost", {
-	group = yank_au,
+	group = au_group_opts,
 	callback = function()
 		vim.highlight.on_yank()
 	end,
 })
 
-local fo_au = vim.api.nvim_create_augroup("FormatOpts", {})
 vim.api.nvim_create_autocmd("FileType", {
-	group = fo_au,
+	group = au_group_opts,
 	callback = function()
 		opt.formatoptions = opt.formatoptions
 			- "t" -- Auto-wrap text using textwidth
@@ -24,9 +23,8 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 -- we want to navigate backwards, not forwards usually
-local tabgroup = vim.api.nvim_create_augroup("tabgroup", {})
 vim.api.nvim_create_autocmd("TabClosed", {
-	group = tabgroup,
+	group = au_group_opts,
 	command = "tabprev",
 })
 
