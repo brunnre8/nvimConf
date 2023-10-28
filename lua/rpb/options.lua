@@ -43,24 +43,24 @@ opt.list = true
 
 -- formatting stuff
 opt.tabstop = 4
-opt.shiftwidth = 0   -- use tabstop value
+opt.shiftwidth = 0 -- use tabstop value
 opt.softtabstop = -1 -- use shiftwidth
 
 opt.spell = true
 opt.termguicolors = true
 opt.autoindent = true
 opt.hlsearch = true
-opt.showmatch = true              -- show the matching part of the pair for [] {} and ()
+opt.showmatch = true -- show the matching part of the pair for [] {} and ()
 opt.backspace = { "indent", "eol", "start" }
 opt.wildmode = { "longest:full" } -- complete max common prefix, don't override unless told to do so
 opt.completeopt = { "menuone", "noselect", "noinsert" }
-opt.autoread = true               -- auto reload a file if it changes
+opt.autoread = true -- auto reload a file if it changes
 opt.ignorecase = true
-opt.smartcase = true              -- case insensitive search except one uses uppercase letters
-opt.hidden = true                 -- modified buffers can be hidden
+opt.smartcase = true -- case insensitive search except one uses uppercase letters
+opt.hidden = true -- modified buffers can be hidden
 opt.wrapscan = true
-opt.signcolumn = "yes"            -- needed by git, else it constantly flashes in and out
-opt.jumpoptions = { "stack" }     -- make it so that the jumplist is a stack rather than the dynamic thing
+opt.signcolumn = "yes" -- needed by git, else it constantly flashes in and out
+opt.jumpoptions = { "stack" } -- make it so that the jumplist is a stack rather than the dynamic thing
 
 opt.foldmethod = "expr"
 opt.foldnestmax = 3
