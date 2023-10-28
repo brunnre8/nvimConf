@@ -25,7 +25,14 @@ vim.api.nvim_create_autocmd("FileType", {
 -- we want to navigate backwards, not forwards usually
 vim.api.nvim_create_autocmd("TabClosed", {
 	group = au_group_opts,
-	command = "tabprev",
+	callback = function(ev)
+		local nr = vim.fn.tabpagenr("$") -- last
+		if nr < tonumber(ev.match) then
+			return -- last tab was closed, don't want to mess with that
+		end
+		-- else navigate backwards
+		vim.cmd.tabprev()
+	end,
 })
 
 opt.modeline = false
