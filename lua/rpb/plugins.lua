@@ -341,7 +341,11 @@ local on_attach = function(client, bufnr)
 	})
 end
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local capabilities = vim.tbl_deep_extend(
+	"force",
+	vim.lsp.protocol.make_client_capabilities(),
+	require("cmp_nvim_lsp").default_capabilities()
+)
 
 local function lsp_server(lsp, opts, on_attach_pre)
 	local on_attach_func = on_attach
