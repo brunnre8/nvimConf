@@ -186,6 +186,11 @@ require("telescope").setup({
 				["<C-t>"] = stopinsert(actions.select_tab),
 			},
 		},
+		-- don't put anything in ignore that you ever want to see in any picker... LSP included
+		-- so adding node_modules etc is a terrible idea
+		file_ignore_patterns = {
+			"^%.git/",
+		},
 	},
 	extensions = {
 		["ui-select"] = {
