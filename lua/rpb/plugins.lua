@@ -15,7 +15,6 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	{
 		"brunnre8/gruvbox.nvim",
-		dependencies = { "rktjmp/lush.nvim" },
 		priority = 1000,
 		lazy = false,
 		config = function()
