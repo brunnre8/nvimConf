@@ -36,7 +36,7 @@ vim.api.nvim_create_autocmd("TabClosed", {
 	callback = function(ev)
 		local nr = vim.fn.tabpagenr("$") -- last
 		if nr < tonumber(ev.match) then
-			return -- last tab was closed, don't want to mess with that
+			return                 -- last tab was closed, don't want to mess with that
 		end
 		-- else navigate backwards
 		vim.cmd.tabprev()
@@ -49,26 +49,30 @@ opt.number = true
 opt.relativenumber = true
 opt.list = true
 
+-- make the current line highlighted
+opt.cursorlineopt = "number"
+opt.cursorline = true
+
 -- formatting stuff
 opt.tabstop = 4
-opt.shiftwidth = 0 -- use tabstop value
+opt.shiftwidth = 0   -- use tabstop value
 opt.softtabstop = -1 -- use shiftwidth
 
 opt.spell = true
 opt.termguicolors = true
 opt.autoindent = true
 opt.hlsearch = true
-opt.showmatch = true -- show the matching part of the pair for [] {} and ()
+opt.showmatch = true              -- show the matching part of the pair for [] {} and ()
 opt.backspace = { "indent", "eol", "start" }
 opt.wildmode = { "longest:full" } -- complete max common prefix, don't override unless told to do so
 opt.completeopt = { "menuone", "noselect", "noinsert" }
-opt.autoread = true -- auto reload a file if it changes
+opt.autoread = true               -- auto reload a file if it changes
 opt.ignorecase = true
-opt.smartcase = true -- case insensitive search except one uses uppercase letters
-opt.hidden = true -- modified buffers can be hidden
+opt.smartcase = true              -- case insensitive search except one uses uppercase letters
+opt.hidden = true                 -- modified buffers can be hidden
 opt.wrapscan = true
-opt.signcolumn = "yes" -- needed by git, else it constantly flashes in and out
-opt.jumpoptions = { "stack" } -- make it so that the jumplist is a stack rather than the dynamic thing
+opt.signcolumn = "yes"            -- needed by git, else it constantly flashes in and out
+opt.jumpoptions = { "stack" }     -- make it so that the jumplist is a stack rather than the dynamic thing
 
 opt.foldmethod = "expr"
 opt.foldnestmax = 3
