@@ -380,6 +380,7 @@ lsp_server("gopls", {
 			nonewvars = true,
 			unusedparams = true,
 			shadow = true,
+			QF1008 = false,
 		},
 		linksInHover = false,
 		staticcheck = true,
