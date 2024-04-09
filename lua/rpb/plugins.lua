@@ -50,13 +50,6 @@ require("lazy").setup({
 	},
 
 	{
-		"jose-elias-alvarez/null-ls.nvim",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
-			"neovim/nvim-lspconfig",
-		},
-	},
-	{
 		"jose-elias-alvarez/nvim-lsp-ts-utils",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
@@ -65,6 +58,7 @@ require("lazy").setup({
 	},
 
 	"dcampos/nvim-snippy",
+	"stevearc/conform.nvim",
 
 	"hrsh7th/nvim-cmp",
 	"hrsh7th/cmp-nvim-lsp",
@@ -299,6 +293,15 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
+	pattern = { "*.js", "*.ts" },
+	callback = function(ev)
+		require("conform").format({
+			bufnr = ev.buf,
+		})
+	end,
+})
+vim.api.nvim_create_autocmd("BufWritePre", {
+	group = lsp_au,
 	pattern = { "*.go" },
 	callback = function()
 		local params = vim.lsp.util.make_range_params(nil, vim.lsp.util._get_offset_encoding(0))
@@ -459,16 +462,13 @@ lsp_server("lua_ls", {
 	},
 })
 
-local null_ls = require("null-ls")
-null_ls.setup({
-	sources = {
-		null_ls.builtins.formatting.stylua,
-		null_ls.builtins.formatting.prettier.with({
-			prefer_local = "node_modules/.bin",
-		}),
+require("conform").setup({
+	formatters_by_ft = {
+		lua = { "stylua" },
+		-- Use a sub-list to run only the first available formatter
+		javascript = { "prettier" },
+		typescript = { "prettier" },
 	},
-	on_attach = on_attach,
-	diagnostics_format = "[#{c}] #{m} [#{s}]", -- #{m}: message, #{s}: source name, #{c}: code (if available)
 })
 
 vim.cmd([[
