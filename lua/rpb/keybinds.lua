@@ -24,6 +24,8 @@ noremap("n", "<Leader>q", ":q<CR>")
 noremap("n", "<Leader>z", ":tab split<CR>")
 noremap("n", "<Leader>m", ":silent make<CR>")
 noremap("n", "<Leader>gs", ":Gtabedit :<CR>")
+noremap("n", "]q", ":cnext<CR>")
+noremap("n", "[q", ":cprev<CR>")
 -- telescope stuff
 local pickers = require("telescope.builtin")
 noremap("n", "<Leader>fr", pickers.resume)
