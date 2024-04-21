@@ -293,7 +293,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
-	pattern = { "*.js", "*.ts" },
+	pattern = { "*.js", "*.ts", "*.vue" },
 	callback = function(ev)
 		require("conform").format({
 			bufnr = ev.buf,
@@ -468,6 +468,7 @@ require("conform").setup({
 		-- Use a sub-list to run only the first available formatter
 		javascript = { "prettier" },
 		typescript = { "prettier" },
+		vue = { "prettier" },
 	},
 })
 
