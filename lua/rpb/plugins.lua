@@ -408,21 +408,39 @@ lsp_server("pylsp", {
 	},
 })
 lsp_server("bashls")
-lsp_server("tsserver", nil, function(client, bufnr)
-	-- disable tsserver formatting done via null-ls
-	client.server_capabilities.documentFormattingProvider = false
-	client.server_capabilities.documentRangeFormattingProvider = false
-	client.server_capabilities.documentOnTypeFormattingProvider = false
-
-	local ts_utils = require("nvim-lsp-ts-utils")
-	ts_utils.setup({
-		filter_out_diagnostics_by_code = {
-			80001, -- require js module warning
+lsp_server(
+	"tsserver",
+	{
+		init_options = {
+			plugins = {
+				{
+					name = "@vue/typescript-plugin",
+					location = vim.fs.normalize("~/.local/opt/npm/lib/node_modules/@vue/language-server"),
+					languages = { "javascript", "typescript", "vue" },
+				},
+			},
 		},
-	})
-	-- required to fix code action ranges and filter diagnostics
-	ts_utils.setup_client(client)
-end)
+		filetypes = {
+			"javascript",
+			"typescript",
+			"vue",
+		},
+	},
+	function(client, bufnr)
+		-- disable tsserver formatting done via null-ls
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+		client.server_capabilities.documentOnTypeFormattingProvider = false
+
+		local ts_utils = require("nvim-lsp-ts-utils")
+		ts_utils.setup({
+			filter_out_diagnostics_by_code = {
+				80001, -- require js module warning
+			},
+		})
+		-- required to fix code action ranges and filter diagnostics
+		ts_utils.setup_client(client)
+	end)
 
 lsp_server("volar", nil, function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
