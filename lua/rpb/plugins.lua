@@ -68,6 +68,7 @@ require("lazy").setup({
 	"hrsh7th/cmp-buffer",
 	"dcampos/cmp-snippy",
 	"windwp/nvim-autopairs",
+	"windwp/nvim-ts-autotag",
 })
 
 local gitsigns = require("gitsigns")
@@ -154,6 +155,8 @@ require("nvim-treesitter.configs").setup({
 			scope_incremental = "gns",
 		},
 	},
+	-- windwp/nvim-ts-autotag
+	autotag = { enable = true },
 })
 
 -- https://github.com/nvim-telescope/telescope.nvim/issues/559
