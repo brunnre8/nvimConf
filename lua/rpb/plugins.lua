@@ -69,6 +69,9 @@ require("lazy").setup({
 	"dcampos/cmp-snippy",
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag",
+
+	'nvim-lualine/lualine.nvim',
+	'nvim-tree/nvim-web-devicons' -- telescope and lualine need it
 })
 
 local gitsigns = require("gitsigns")
@@ -261,6 +264,61 @@ snippy.setup({
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
 })
+
+local function diff_source()
+	local status = vim.b.gitsigns_status_dict
+	if status then
+		return {
+			added = status.added,
+			modified = status.changed,
+			removed = status.removed
+		}
+	end
+end
+
+local lualine_gruvbox = require('lualine.themes.gruvbox')
+
+require('lualine').setup({
+	options = {
+		-- icons_enabled = true,
+		-- component_separators = { left = '', right = '' },
+		-- section_separators = { left = '', right = '' },
+		disabled_filetypes = {
+			-- statusline = {},
+			-- winbar = {},
+		},
+		-- ignore_focus = {},
+		-- always_divide_middle = true,
+		-- globalstatus = false,
+		-- refresh = {
+		-- 	statusline = 1000,
+		-- 	tabline = 1000,
+		-- 	winbar = 1000,
+		-- }
+		theme = lualine_gruvbox,
+	},
+	sections = {
+		lualine_a = { 'mode' },
+		lualine_b = { { 'b:gitsigns_head', icon = '' }, { 'diff', source = diff_source }, 'diagnostics' },
+		lualine_c = { { 'filename', path = 1 } },
+		lualine_x = { 'encoding', 'fileformat', 'filetype' },
+		lualine_y = { 'progress' },
+		lualine_z = { 'location' }
+	},
+	inactive_sections = {
+		lualine_a = {},
+		lualine_b = {},
+		lualine_c = { 'filename' },
+		lualine_x = { 'location' },
+		lualine_y = {},
+		lualine_z = {}
+	},
+	tabline = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = { "quickfix", "nerdtree", "lazy", "fugitive", "man" }
+}
+)
 
 -- require("nvim-highlight-colors").setup({
 -- 	render = "first_column", -- 'background' or 'foreground' or 'first_column'
