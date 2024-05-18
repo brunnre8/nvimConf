@@ -559,14 +559,4 @@ require("conform").setup({
 	},
 })
 
-vim.cmd([[
-function! SynStack()
-  if !exists("*synstack")
-    return
-  endif
-  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
-endfunc
-map gm :call SynStack()<CR>
-]])
-
 vim.g.NERDTreeShowHidden = 1
