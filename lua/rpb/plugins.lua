@@ -71,7 +71,8 @@ require("lazy").setup({
 	"windwp/nvim-ts-autotag",
 
 	'nvim-lualine/lualine.nvim',
-	'nvim-tree/nvim-web-devicons' -- telescope and lualine need it
+	'nvim-tree/nvim-web-devicons', -- telescope and lualine need it
+	'arkav/lualine-lsp-progress',
 })
 
 local gitsigns = require("gitsigns")
@@ -300,8 +301,15 @@ require('lualine').setup({
 	sections = {
 		lualine_a = { 'mode' },
 		lualine_b = { { 'b:gitsigns_head', icon = '' }, { 'diff', source = diff_source }, 'diagnostics' },
-		lualine_c = { { 'filename', path = 1 } },
-		lualine_x = { 'encoding', 'fileformat', 'filetype' },
+		lualine_c = {
+			{ 'filename', path = 1 },
+			{
+				'lsp_progress',
+				display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
+				timer = { progress_enddelay = 1000, spinner = 1000, lsp_client_name_enddelay = 0 },
+			},
+		},
+		lualine_x = { 'encoding', 'fileformat', 'filetype', },
 		lualine_y = { 'progress' },
 		lualine_z = { 'location' }
 	},
