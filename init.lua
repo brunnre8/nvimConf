@@ -1,5 +1,5 @@
 -- shut deprecation warnings up
-function vim.deprecate() end
+-- function vim.deprecate() end
 
 require("rpb/globals")
 require("rpb/plugins")
