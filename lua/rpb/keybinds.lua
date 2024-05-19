@@ -41,3 +41,17 @@ noremap("n", "<Leader>fm", function()
 end)
 noremap("n", "<Leader>fg", pickers.live_grep)
 noremap("n", "<Leader>fs", pickers.lsp_workspace_symbols)
+
+-- dap
+local dap = require("dap")
+noremap("n", "<F1>", dap.step_into)
+noremap("n", "<F2>", dap.step_over)
+noremap("n", "<F3>", dap.step_out)
+noremap("n", "<F4>", dap.focus_frame)
+noremap("n", "<F5>", dap.continue)
+noremap("n", "<F6>", dap.terminate)
+noremap("n", "<Leader>bb", dap.toggle_breakpoint)
+-- Eval var under cursor
+noremap("n", "<Leader>bk", function()
+	require("dapui").eval(nil, { enter = true })
+end)

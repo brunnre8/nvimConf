@@ -73,6 +73,15 @@ require("lazy").setup({
 	'nvim-lualine/lualine.nvim',
 	'nvim-tree/nvim-web-devicons', -- telescope and lualine need it
 	'arkav/lualine-lsp-progress',
+
+	{
+		"mfussenegger/nvim-dap",
+		dependencies = {
+			"leoluz/nvim-dap-go",
+			"theHamsta/nvim-dap-virtual-text",
+			{ "rcarriga/nvim-dap-ui", dependencies = "nvim-neotest/nvim-nio", },
+		},
+	},
 })
 
 local gitsigns = require("gitsigns")
@@ -560,3 +569,34 @@ require("conform").setup({
 })
 
 vim.g.NERDTreeShowHidden = 1
+
+local dap = require("dap")
+local dapui = require("dapui")
+
+dap.listeners.before.attach.dapui_config = function()
+	dapui.open()
+end
+
+dap.listeners.before.launch.dapui_config = function()
+	dapui.open()
+end
+
+dap.listeners.before.event_terminated.dapui_config = function()
+	dapui.close()
+end
+
+dap.listeners.before.event_exited.dapui_config = function()
+	dapui.close()
+end
+
+require("dapui").setup({
+	controls = {
+		element = "repl",
+		enabled = false,
+	}
+})
+require("dap-go").setup()
+require("nvim-dap-virtual-text").setup()
+
+vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
+vim.fn.sign_define('DapStopped', { text = '', texthl = '', linehl = '', numhl = '' })
