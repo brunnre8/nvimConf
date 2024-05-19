@@ -69,6 +69,7 @@ require("lazy").setup({
 	"dcampos/cmp-snippy",
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag",
+	"folke/neodev.nvim",
 
 	'nvim-lualine/lualine.nvim',
 	'nvim-tree/nvim-web-devicons', -- telescope and lualine need it
