@@ -603,3 +603,22 @@ require("nvim-dap-virtual-text").setup()
 
 vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
 vim.fn.sign_define('DapStopped', { text = '', texthl = '', linehl = '', numhl = '' })
+
+dap.adapters["pwa-node"] = {
+	type = "server",
+	host = "localhost",
+	port = "${port}",
+	executable = {
+		command = "node",
+		args = { vim.fs.normalize("~/.local/opt/js-debug/src/dapDebugServer.js"), "${port}" },
+	}
+}
+require("dap").configurations.typescript = {
+	{
+		type = "pwa-node",
+		request = "launch",
+		name = "Launch file",
+		program = "${file}",
+		cwd = "${workspaceFolder}",
+	},
+}
