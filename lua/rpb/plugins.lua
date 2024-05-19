@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 -- auto fetch the package manager
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
