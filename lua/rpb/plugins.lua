@@ -600,6 +600,7 @@ require("dapui").setup({
 	}
 })
 require("dap-go").setup()
+---@diagnostic disable-next-line: missing-parameter
 require("nvim-dap-virtual-text").setup()
 
 vim.fn.sign_define('DapBreakpoint', { text = '', texthl = '', linehl = '', numhl = '' })
