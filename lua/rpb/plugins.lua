@@ -258,6 +258,9 @@ cmp.setup({
 	},
 	preselect = cmp.PreselectMode.None,
 })
+-- If you want insert `(` after select function or method item
+cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
+
 
 snippy.setup({
 	mappings = {
@@ -345,9 +348,6 @@ require('lualine').setup({
 -- 	enable_named_colors = true,
 -- 	enable_tailwind = false,
 -- })
-
--- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
--- cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done())
 
 -- LSP settings
 vim.diagnostic.config({ virtual_text = { source = true } })
