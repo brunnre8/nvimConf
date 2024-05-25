@@ -170,8 +170,6 @@ require("nvim-treesitter.configs").setup({
 			scope_incremental = "gns",
 		},
 	},
-	-- windwp/nvim-ts-autotag
-	autotag = { enable = true },
 })
 
 -- https://github.com/nvim-telescope/telescope.nvim/issues/559
@@ -276,6 +274,7 @@ snippy.setup({
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
 })
+require("nvim-ts-autotag").setup()
 
 local function diff_source()
 	local status = vim.b.gitsigns_status_dict
