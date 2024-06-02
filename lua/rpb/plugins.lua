@@ -70,7 +70,11 @@ require("lazy").setup({
 	"dcampos/cmp-snippy",
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag",
-	"folke/neodev.nvim",
+
+	{
+		"folke/lazydev.nvim",
+		ft = "lua", -- only load on lua files
+	},
 
 	'nvim-lualine/lualine.nvim',
 	'nvim-tree/nvim-web-devicons', -- telescope and lualine need it
