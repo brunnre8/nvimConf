@@ -88,6 +88,14 @@ require("lazy").setup({
 			{ "rcarriga/nvim-dap-ui", dependencies = "nvim-neotest/nvim-nio", },
 		},
 	},
+
+
+	{
+		"mfussenegger/nvim-jdtls",
+		dependencies = {
+			"mfussenegger/nvim-dap",
+		}
+	}
 })
 
 local gitsigns = require("gitsigns")
@@ -405,49 +413,18 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
-local on_attach = function(client, bufnr)
-	local opts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<leader>D", vim.lsp.buf.declaration, opts)
-	vim.keymap.set("n", "<leader>d", vim.lsp.buf.definition, opts)
-	vim.keymap.set("n", "<leader>lca", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("i", "<C-f>", vim.lsp.buf.code_action, opts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-	vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-	vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
-	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-	vim.keymap.set("n", "<leader>ldl", vim.diagnostic.open_float, opts)
-	vim.keymap.set("n", "<leader>la", vim.diagnostic.setloclist, opts)
-
-	local pickers = require("telescope.builtin")
-	vim.keymap.set("n", "<leader>li", pickers.lsp_implementations, opts)
-	vim.keymap.set("n", "<leader>lr", pickers.lsp_references, opts)
-
-	require("lsp_signature").on_attach({
-		hint_prefix = "",
-		hint_enable = false,
-		floating_window = true,
-		doc_lines = 1,
-	})
-end
-
-local capabilities = vim.tbl_deep_extend(
-	"force",
-	vim.lsp.protocol.make_client_capabilities(),
-	require("cmp_nvim_lsp").default_capabilities()
-)
-
 local function lsp_server(lsp, opts, on_attach_pre)
-	local on_attach_func = on_attach
+	local rpb_lsp = require('rpb.lsp')
+	local on_attach_func = rpb_lsp.on_attach
 	if on_attach_pre then
 		on_attach_func = function(client, bufnr)
 			on_attach_pre(client, bufnr)
-			on_attach(client, bufnr)
+			rpb_lsp.on_attach(client, bufnr)
 		end
 	end
 	local options = {
 		on_attach = on_attach_func,
-		capabilities = capabilities,
+		capabilities = rpb_lsp.capabilities,
 	}
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
@@ -500,7 +477,8 @@ lsp_server(
 			plugins = {
 				{
 					name = "@vue/typescript-plugin",
-					location = vim.fs.normalize("~/.local/opt/npm/lib/node_modules/@vue/language-server"),
+					location = vim.fs.normalize(
+						"~/.local/opt/npm/lib/node_modules/@vue/language-server"),
 					languages = { "javascript", "typescript", "vue" },
 				},
 			},
