@@ -519,6 +519,7 @@ lsp_server("html", {
 })
 lsp_server("cssls")
 lsp_server("eslint")
+lsp_server("mesonlsp")
 
 lsp_server("lua_ls", {
 	settings = {
