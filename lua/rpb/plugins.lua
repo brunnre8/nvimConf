@@ -463,8 +463,9 @@ vim.filetype.add({
 	},
 })
 
--- lsp_server("ccls")
-lsp_server("clangd")
+lsp_server("clangd", {}, function()
+	vim.keymap.set("n", "<leader>ga", vim.cmd.ClangdSwitchSourceHeader)
+end)
 lsp_server("pylsp", {
 	settings = {
 		pylsp = {
