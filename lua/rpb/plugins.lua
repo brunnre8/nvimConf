@@ -330,7 +330,9 @@ require('lualine').setup({
 			{ 'filename', path = 1 },
 			{
 				'lsp_progress',
-				display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
+				-- TODO: need to escape the message here
+				-- display_components = { 'lsp_client_name', { 'title', 'percentage', 'message' } },
+				display_components = { 'lsp_client_name', { 'title', 'percentage' } },
 				timer = { progress_enddelay = 1000, spinner = 1000, lsp_client_name_enddelay = 0 },
 			},
 		},
@@ -461,7 +463,8 @@ vim.filetype.add({
 	},
 })
 
-lsp_server("ccls")
+-- lsp_server("ccls")
+lsp_server("clangd")
 lsp_server("pylsp", {
 	settings = {
 		pylsp = {
