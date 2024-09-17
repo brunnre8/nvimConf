@@ -434,6 +434,37 @@ local function lsp_server(lsp, opts, on_attach_pre)
 	lspconfig[lsp].setup(options)
 end
 
+-- this seems roundabout, but passing the position
+-- doesn't work with normal LSP, so nvim cheats
+-- in the TexlabBuild command.
+-- Hence prefer that over build.onSave = true
+vim.api.nvim_create_autocmd("BufWritePost", {
+	group = lsp_au,
+	pattern = { '*.tex', '*.plaintex', '*.bib' },
+	command = "TexlabBuild",
+})
+
+lsp_server("texlab", {
+	settings = {
+		texlab = {
+			build = {
+				forwardSearchAfter = true,
+				-- onSave = true -- doesn't actually work, see above
+			},
+			auxDirectory = nil,
+			chktex = {
+				onEdit = false,
+				onOpenAndSave = true
+			},
+			forwardSearch = {
+				executable = "zathura",
+				args = { "--synctex-forward", "%l:1:%f", "%p" },
+			},
+			formatterLineLength = 120,
+		},
+	},
+})
+
 lsp_server("gopls", {
 	filetypes = { "go", "gomod", "gowork", "gohtml.html" },
 	init_options = {
