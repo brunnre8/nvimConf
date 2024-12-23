@@ -42,7 +42,7 @@ require("lazy").setup({
 	-- Additional textobjects for treesitter
 	"nvim-treesitter/nvim-treesitter-textobjects",
 	"neovim/nvim-lspconfig", -- Collection of configurations for built-in LSP client
-	"ray-x/lsp_signature.nvim",
+	"brunnre8/lsp_signature.nvim",
 	{
 		"lewis6991/gitsigns.nvim",
 		dependencies = {
