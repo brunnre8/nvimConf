@@ -73,6 +73,7 @@ opt.hidden = true                 -- modified buffers can be hidden
 opt.wrapscan = true
 opt.signcolumn = "yes"            -- needed by git, else it constantly flashes in and out
 opt.jumpoptions = { "stack" }     -- make it so that the jumplist is a stack rather than the dynamic thing
+opt.title = true                  -- set the window title according to the open file
 
 opt.foldmethod = "expr"
 opt.foldnestmax = 3
