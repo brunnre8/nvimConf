@@ -416,6 +416,24 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("FileType", {
+	group = lsp_au,
+	pattern = "typst",
+	callback = function()
+		vim.api.nvim_create_user_command('TypstPreview',
+			function(opts)
+				local current = vim.fn.expand('%:p')
+				local pdf = current:sub(0, -(string.len(".typ") + 1)) .. ".pdf"
+				local path = vim.fs.joinpath("/tmp/typst/", pdf)
+				vim.system({ "open", path }, { detach = true })
+			end,
+			{
+				nargs = 0,
+				desc = "Open pdf preview"
+			})
+	end
+})
+
 local function lsp_server(lsp, opts, on_attach_pre)
 	local rpb_lsp = require('rpb.lsp')
 	local on_attach_func = rpb_lsp.on_attach
@@ -556,6 +574,13 @@ lsp_server("html", {
 lsp_server("cssls")
 lsp_server("eslint")
 lsp_server("mesonlsp")
+lsp_server("tinymist", {
+	settings = {
+		exportPdf = "onType",
+		formatterMode = "typstyle",
+		outputPath = "/tmp/typst/$root/$dir/$name"
+	}
+})
 
 lsp_server("lua_ls", {
 	settings = {
