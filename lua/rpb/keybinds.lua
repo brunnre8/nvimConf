@@ -55,3 +55,14 @@ noremap("n", "<Leader>bb", dap.toggle_breakpoint)
 noremap("n", "<Leader>bk", function()
 	require("dapui").eval(nil, { enter = true })
 end)
+
+vim.keymap.set('c', '%%', function()
+	if vim.fn.getcmdtype() ~= ":"
+	then
+		return "%%"
+	end
+	return vim.fn.expand("%:p:h") .. "/"
+end, {
+	expr = true,
+	desc = "automatically expand %% to folder of current file"
+})
