@@ -3,8 +3,14 @@ local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew" }) or '.'
 local home = os.getenv('HOME')
 local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 local jdtls_install_path = home .. '/sourcecode/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/'
+local java_debug_jar = vim.fn.glob(
+	home .. "/sourcecode/ms-java-debug/com.microsoft.java.debug.plugin/target/com.microsoft.java.debug.plugin-*.jar",
+	true)
 
-
+local bundles = {
+	java_debug_jar,
+}
+vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/sourcecode/vscode-java-test/server/*.jar", true), "\n"))
 
 local config = {
 	-- The command that starts the language server
@@ -57,7 +63,7 @@ local config = {
 	--
 	-- If you don't plan on using the debugger or other eclipse.jdt.ls plugins you can remove this
 	init_options = {
-		bundles = {}
+		bundles = bundles,
 	},
 }
 
