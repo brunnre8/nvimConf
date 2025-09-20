@@ -52,6 +52,9 @@ local config = {
 	-- for a list of options
 	settings = {
 		java = {
+			telemetry = {
+				enabled = false
+			},
 			format = {
 				comments = {
 					enabled = false,
