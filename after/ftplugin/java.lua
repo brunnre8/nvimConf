@@ -57,7 +57,7 @@ local config = {
 			},
 			format = {
 				comments = {
-					enabled = false,
+					enabled = true,
 				}
 			}
 		}
