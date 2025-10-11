@@ -1,5 +1,5 @@
 local jdtls = require('jdtls')
-local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew" }) or '.'
+local root_dir = vim.fs.root(0, { ".git", "mvnw", "gradlew", ".mvn" }) or '.'
 local home = os.getenv('HOME')
 local workspace_folder = home .. "/.local/share/eclipse/" .. vim.fn.fnamemodify(root_dir, ":p:h:t")
 local jdtls_install_path = home .. '/sourcecode/eclipse.jdt.ls/org.eclipse.jdt.ls.product/target/repository/'
