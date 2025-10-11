@@ -496,6 +496,8 @@ lsp_server("gopls", {
 			unusedparams = true,
 			shadow = true,
 			QF1008 = false,
+			ST1000 = false, -- package comment nag
+			ST1003 = false, -- all caps names
 		},
 		linksInHover = false,
 		staticcheck = true,
