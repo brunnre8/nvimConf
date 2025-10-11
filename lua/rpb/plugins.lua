@@ -375,7 +375,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 	callback = function(ev)
 		vim.lsp.buf.format({
 			filter = function(client_)
-				return client_.name ~= "tsserver"
+				return client_.name ~= "ts_ls"
 			end,
 			bufnr = ev.buf,
 			timeout_ms = nil,
@@ -525,7 +525,7 @@ lsp_server("pylsp", {
 })
 lsp_server("bashls")
 lsp_server(
-	"tsserver",
+	"ts_ls",
 	{
 		init_options = {
 			plugins = {
