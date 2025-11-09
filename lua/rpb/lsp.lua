@@ -107,6 +107,20 @@ M.on_attach = function(client, bufnr)
 		})
 	end
 
+	if client:supports_method('textDocument/codeLens') then
+		local function refresh_codelens()
+			vim.lsp.codelens.refresh({
+				bufnr = bufnr,
+			})
+		end
+		vim.api.nvim_create_autocmd({ 'BufEnter', "CursorHold", "InsertLeave" }, {
+			buffer = bufnr,
+			group = lsp_au,
+			callback = refresh_codelens,
+		})
+		refresh_codelens() -- immediately refresh once
+	end
+
 	mapkeys(client, bufnr)
 
 	-- TODO: enable nvim native completion
