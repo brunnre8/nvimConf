@@ -178,8 +178,6 @@ vim.filetype.add({
 	},
 })
 
-local lsp_au = vim.api.nvim_create_augroup("rpb.lspFormat", {})
-
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
 	pattern = { "*.js", "*.ts", "*.vue" },
