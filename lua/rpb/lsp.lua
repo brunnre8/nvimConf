@@ -102,7 +102,14 @@ M.on_attach = function(client, bufnr)
 			group = lsp_au,
 			buffer = bufnr,
 			callback = function()
-				vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 5000 })
+				vim.lsp.buf.format({
+					filter = function(client_)
+						return client_.name ~= "ts_ls"
+					end,
+					bufnr = bufnr,
+					id = client.id,
+					timeout_ms = nil,
+				})
 			end,
 		})
 	end
@@ -172,19 +179,6 @@ vim.filetype.add({
 })
 
 local lsp_au = vim.api.nvim_create_augroup("rpb.lspFormat", {})
-
-vim.api.nvim_create_autocmd("BufWritePre", {
-	group = lsp_au,
-	callback = function(ev)
-		vim.lsp.buf.format({
-			filter = function(client_)
-				return client_.name ~= "ts_ls"
-			end,
-			bufnr = ev.buf,
-			timeout_ms = nil,
-		})
-	end,
-})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = lsp_au,
