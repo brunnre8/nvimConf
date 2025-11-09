@@ -73,56 +73,59 @@ local function fixup_ts(client, bufnr)
 	ts_utils.setup_client(client)
 end
 
+M.on_attach = function(client, bufnr)
+	require("lsp_signature").on_attach({
+		hint_prefix = "",
+		hint_enable = false,
+		floating_window = true,
+		doc_lines = 0,
+		zindex = 50 -- bottom of other things
+	})
+
+	-- TODO: this is shit, but the merge semantics for any of the lsp things
+	-- only overwrite completely, we can't add to them.
+	-- fixup when https://github.com/neovim/neovim/issues/33577 has a solution
+
+	if client.name == "volar" then
+		client.server_capabilities.documentFormattingProvider = false
+		client.server_capabilities.documentRangeFormattingProvider = false
+	end
+
+	if client.name == "ts_ls" then
+		fixup_ts(client, bufnr)
+	end
+
+	-- if server supports "willSaveWaitUntil" it probably has a way to tell it to format on save
+	if not client:supports_method('textDocument/willSaveWaitUntil')
+		and client:supports_method('textDocument/formatting') then
+		vim.api.nvim_create_autocmd('BufWritePre', {
+			group = lsp_au,
+			buffer = bufnr,
+			callback = function()
+				vim.lsp.buf.format({ bufnr = bufnr, id = client.id, timeout_ms = 5000 })
+			end,
+		})
+	end
+
+	mapkeys(client, bufnr)
+
+	-- TODO: enable nvim native completion
+	-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
+
+	-- if client:supports_method('textDocument/completion') then
+	-- Optional: trigger autocompletion on EVERY keypress. May be slow!
+	-- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
+	-- client.server_capabilities.completionProvider.triggerCharacters = chars
+
+	-- vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
+	-- end
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
 	group = lsp_au,
 	callback = function(args)
-		require("lsp_signature").on_attach({
-			hint_prefix = "",
-			hint_enable = false,
-			floating_window = true,
-			doc_lines = 0,
-			zindex = 50 -- bottom of other things
-		})
-
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-
-		-- TODO: this is shit, but the merge semantics for any of the lsp things
-		-- only overwrite completely, we can't add to them.
-		-- fixup when https://github.com/neovim/neovim/issues/33577 has a solution
-
-		if client.name == "volar" then
-			client.server_capabilities.documentFormattingProvider = false
-			client.server_capabilities.documentRangeFormattingProvider = false
-		end
-
-		if client.name == "ts_ls" then
-			fixup_ts(client, args.buf)
-		end
-
-		-- if server supports "willSaveWaitUntil" it probably has a way to tell it to format on save
-		if not client:supports_method('textDocument/willSaveWaitUntil')
-			and client:supports_method('textDocument/formatting') then
-			vim.api.nvim_create_autocmd('BufWritePre', {
-				group = lsp_au,
-				buffer = args.buf,
-				callback = function()
-					vim.lsp.buf.format({ bufnr = args.buf, id = client.id, timeout_ms = 5000 })
-				end,
-			})
-		end
-
-		mapkeys(client, args.buf)
-
-		-- TODO: enable nvim native completion
-		-- Enable auto-completion. Note: Use CTRL-Y to select an item. |complete_CTRL-Y|
-
-		-- if client:supports_method('textDocument/completion') then
-		-- Optional: trigger autocompletion on EVERY keypress. May be slow!
-		-- local chars = {}; for i = 32, 126 do table.insert(chars, string.char(i)) end
-		-- client.server_capabilities.completionProvider.triggerCharacters = chars
-
-		-- vim.lsp.completion.enable(true, client.id, args.buf, {autotrigger = true})
-		-- end
+		M.on_attach(client, args.buf)
 	end,
 })
 
@@ -202,5 +205,12 @@ vim.api.nvim_create_autocmd("BufWritePost", {
 	pattern = { '*.tex', '*.plaintex', '*.bib' },
 	command = "LspTexlabBuild",
 })
+
+-- java lsp uses it...
+M.lsp_default_options = {
+	on_attach = M.on_attach,
+	capabilities = M.capabilities,
+}
+
 
 return M
