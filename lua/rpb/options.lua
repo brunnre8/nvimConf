@@ -83,6 +83,5 @@ opt.foldlevel = 0
 opt.fillchars = {
 	fold = " ",
 }
-opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 
 vim.lsp.inlay_hint.enable()

@@ -38,9 +38,15 @@ require("lazy").setup({
 	"scrooloose/nerdtree",
 
 	-- Highlight, edit, and navigate code using a fast incremental parsing library
-	"nvim-treesitter/nvim-treesitter",
+	{
+		"nvim-treesitter/nvim-treesitter",
+		lazy = false, -- can't cope
+		branch = "main",
+		build = ':TSUpdate'
+	},
 	-- Additional textobjects for treesitter
-	"nvim-treesitter/nvim-treesitter-textobjects",
+	-- TODO: fancy textobjects
+	-- "nvim-treesitter/nvim-treesitter-textobjects",
 	"neovim/nvim-lspconfig", -- Collection of configurations for built-in LSP client
 	"ray-x/lsp_signature.nvim",
 	{
@@ -136,53 +142,57 @@ gitsigns.setup({
 	end,
 })
 
-require("nvim-treesitter.configs").setup({
-	ensure_installed = {
-		"bash",
-		"c",
-		"comment",
-		"cpp",
-		"css",
-		"elixir",
-		"go",
-		"gomod",
-		"gowork",
-		"graphql",
-		"html",
-		"http",
-		"java",
-		"javascript",
-		"json",
-		"json5",
-		"jsonc",
-		"latex",
-		"lua",
-		"make",
-		"markdown",
-		"markdown_inline",
-		"query",
-		"python",
-		"regex",
-		"ruby",
-		"rust",
-		"scss",
-		"toml",
-		"typescript",
-		"vim",
-		"vimdoc",
-		"vue",
-		"yaml",
-	},
-	highlight = { enable = true },
-	incremental_selection = {
-		enable = true,
-		keymaps = {
-			init_selection = "gni",
-			node_incremental = "gnn",
-			node_decremental = "gnm",
-			scope_incremental = "gns",
-		},
-	},
+local ts_parsers = {
+	"bash",
+	"c",
+	"comment",
+	"cpp",
+	"css",
+	"elixir",
+	"go",
+	"gomod",
+	"gowork",
+	"graphql",
+	"html",
+	"http",
+	"java",
+	"javascript",
+	"json",
+	"json5",
+	"jsonc",
+	"latex",
+	"lua",
+	"make",
+	"markdown",
+	"markdown_inline",
+	"query",
+	"python",
+	"regex",
+	"ruby",
+	"rust",
+	"scss",
+	"toml",
+	"typescript",
+	"vim",
+	"vimdoc",
+	"vue",
+	"yaml",
+
+}
+
+require('nvim-treesitter').install(ts_parsers):wait(300000) -- wait max. 5 minutes
+local ts_au = vim.api.nvim_create_augroup("treesitter", {})
+vim.api.nvim_create_autocmd('FileType', {
+	group = ts_au,
+	callback = function(ev)
+		local lang = vim.treesitter.language.get_lang(vim.bo.filetype)
+		if not vim.tbl_contains(ts_parsers, lang) then
+			return
+		end
+		vim.treesitter.start(ev.buf)
+		vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+		vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+	end
 })
 
 -- https://github.com/nvim-telescope/telescope.nvim/issues/559
