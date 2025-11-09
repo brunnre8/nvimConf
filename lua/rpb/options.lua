@@ -84,5 +84,3 @@ opt.foldlevel = 0
 opt.fillchars = {
 	fold = " ",
 }
-
-vim.lsp.inlay_hint.enable()
