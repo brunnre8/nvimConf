@@ -181,7 +181,7 @@ local ts_parsers = {
 }
 
 require('nvim-treesitter').install(ts_parsers):wait(300000) -- wait max. 5 minutes
-local ts_au = vim.api.nvim_create_augroup("treesitter", {})
+local ts_au = vim.api.nvim_create_augroup("rpb.treesitter", {})
 vim.api.nvim_create_autocmd('FileType', {
 	group = ts_au,
 	callback = function(ev)
