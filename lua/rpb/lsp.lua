@@ -36,7 +36,7 @@ M.on_attach = function(client, bufnr)
 		hint_prefix = "",
 		hint_enable = false,
 		floating_window = true,
-		doc_lines = 1,
+		doc_lines = 2,
 	})
 end
 
