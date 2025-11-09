@@ -168,10 +168,6 @@ vim.lsp.enable({
 	"mesonlsp",
 })
 
--- =================
--- FORMATTING AUCMDS
--- =================
-
 vim.filetype.add({
 	extension = {
 		gohtml = "gohtml.html",
