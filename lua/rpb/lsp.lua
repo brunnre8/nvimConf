@@ -107,7 +107,9 @@ M.on_attach = function(client, bufnr)
 		})
 	end
 
-	if client:supports_method('textDocument/codeLens') then
+	if client:supports_method('textDocument/codeLens')
+		and client.name ~= "jdtls" -- only has "references" count, which is useless
+	then
 		local function refresh_codelens()
 			vim.lsp.codelens.refresh({
 				bufnr = bufnr,
