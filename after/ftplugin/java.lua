@@ -58,9 +58,12 @@ local config = {
 			format = {
 				comments = {
 					enabled = true,
-				}
-			}
-		}
+				},
+			},
+			saveActions = {
+				organizeImports = true,
+			},
+		},
 	},
 
 	-- Language server `initializationOptions`
