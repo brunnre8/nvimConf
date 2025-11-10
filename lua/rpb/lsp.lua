@@ -95,9 +95,7 @@ M.on_attach = function(client, bufnr)
 		fixup_ts(client, bufnr)
 	end
 
-	-- if server supports "willSaveWaitUntil" it probably has a way to tell it to format on save
-	if not client:supports_method('textDocument/willSaveWaitUntil')
-		and client:supports_method('textDocument/formatting') then
+	if client:supports_method('textDocument/formatting') then
 		vim.api.nvim_create_autocmd('BufWritePre', {
 			group = lsp_au,
 			buffer = bufnr,
