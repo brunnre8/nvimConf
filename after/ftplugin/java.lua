@@ -87,3 +87,14 @@ config = vim.tbl_deep_extend(
 -- This starts a new client & server,
 -- or attaches to an existing client & server depending on the `root_dir`.
 require('jdtls').start_or_attach(config)
+
+vim.api.nvim_buf_create_user_command(0, 'JavaAlternate',
+	function(opts)
+		require("jdtls.tests").goto_subjects()
+	end,
+	{
+		nargs = 0,
+		desc = "Jump to/from Java tests"
+	})
+
+vim.keymap.set("n", "<leader>ga", vim.cmd.JavaAlternate, { noremap = true, silent = true, buffer = 0 })
