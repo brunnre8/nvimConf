@@ -164,6 +164,7 @@ vim.lsp.enable({
 	"cssls",
 	"eslint",
 	"mesonlsp",
+	"ts_ls",
 })
 
 vim.filetype.add({
