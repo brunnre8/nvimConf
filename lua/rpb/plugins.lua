@@ -159,7 +159,6 @@ local ts_parsers = {
 	"javascript",
 	"json",
 	"json5",
-	"jsonc",
 	"latex",
 	"lua",
 	"make",
