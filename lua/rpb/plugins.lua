@@ -64,7 +64,7 @@ require("lazy").setup({
 		},
 	},
 
-	"dcampos/nvim-snippy",
+	-- "dcampos/nvim-snippy",
 	"stevearc/conform.nvim",
 
 	"hrsh7th/nvim-cmp",
@@ -73,7 +73,7 @@ require("lazy").setup({
 	"hrsh7th/cmp-nvim-lua",
 	"hrsh7th/cmp-emoji",
 	"hrsh7th/cmp-buffer",
-	"dcampos/cmp-snippy",
+	-- "dcampos/cmp-snippy",
 	"windwp/nvim-autopairs",
 	"windwp/nvim-ts-autotag",
 
@@ -248,18 +248,17 @@ require("telescope").setup({
 -- load_extension, somewhere after setup function:
 require("telescope").load_extension("ui-select")
 
-local snippy = require("snippy")
+-- local snippy = require("snippy")
 local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			snippy.expand_snippet(args.body)
-			return nil
+			vim.snippet.expand(args.body)
 		end,
 	},
 	sources = {
 		{ name = "nvim_lsp" },
-		{ name = "snippy" },
+		-- { name = "snippy" },
 		{ name = "path" },
 		{ name = "nvim_lua" },
 		{ name = "emoji" },
@@ -281,20 +280,20 @@ cmp.setup({
 	preselect = cmp.PreselectMode.None,
 })
 -- If you want insert `(` after select function or method item
-cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
+-- cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
 
 
-snippy.setup({
-	mappings = {
-		is = {
-			["<Tab>"] = "expand_or_advance",
-			["<S-Tab>"] = "previous",
-		},
-		-- nx = {
-		-- 	["<leader>x"] = "cut_text",
-		-- },
-	},
-})
+-- snippy.setup({
+-- 	mappings = {
+-- 		is = {
+-- 			["<Tab>"] = "expand_or_advance",
+-- 			["<S-Tab>"] = "previous",
+-- 		},
+-- 		-- nx = {
+-- 		-- 	["<leader>x"] = "cut_text",
+-- 		-- },
+-- 	},
+-- })
 
 require("nvim-autopairs").setup({
 	disable_in_macro = true,
