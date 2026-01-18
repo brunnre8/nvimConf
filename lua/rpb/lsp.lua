@@ -95,6 +95,12 @@ M.on_attach = function(client, bufnr)
 		fixup_ts(client, bufnr)
 	end
 
+	if client.name == "clangd" then
+		-- clangd somehow sends bogus requests, which mess with snippet expansion of cmp
+		-- so for now we disable it
+		vim.lsp.on_type_formatting.enable(false, { client_id = client.id })
+	end
+
 	if client:supports_method('textDocument/formatting') then
 		vim.api.nvim_create_autocmd('BufWritePre', {
 			group = lsp_au,
