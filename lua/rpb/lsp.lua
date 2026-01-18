@@ -50,7 +50,7 @@ local function mapkeys(client, bufnr)
 	-- fixup when https://github.com/neovim/neovim/issues/33577 has a solution
 
 	if client.name == "clangd" then
-		vim.keymap.set("n", "<leader>ga", vim.cmd.ClangdSwitchSourceHeader, opts)
+		vim.keymap.set("n", "<leader>ga", vim.cmd.LspClangdSwitchSourceHeader, opts)
 	end
 end
 
