@@ -280,7 +280,7 @@ cmp.setup({
 	preselect = cmp.PreselectMode.None,
 })
 -- If you want insert `(` after select function or method item
--- cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
+cmp.event:on('confirm_done', require('nvim-autopairs.completion.cmp').on_confirm_done())
 
 
 -- snippy.setup({

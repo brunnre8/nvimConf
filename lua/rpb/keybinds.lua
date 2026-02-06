@@ -67,6 +67,6 @@ end, {
 	desc = "automatically expand %% to folder of current file"
 })
 
-vim.keymap.set('i', '<cr>', function()
-	return vim.fn.pumvisible() == 1 and '<C-y>' or '<cr>'
-end, { expr = true })
+-- vim.keymap.set('i', '<cr>', function()
+-- 	return vim.fn.pumvisible() == 1 and '<C-y>' or '<cr>'
+-- end, { expr = true })
