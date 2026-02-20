@@ -10,7 +10,17 @@ local java_debug_jar = vim.fn.glob(
 local bundles = {
 	java_debug_jar,
 }
-vim.list_extend(bundles, vim.split(vim.fn.glob(home .. "/sourcecode/vscode-java-test/server/*.jar", true), "\n"))
+local java_test_bundles = vim.split(vim.fn.glob(home .. "/sourcecode/vscode-java-test/server/*.jar", true), "\n")
+local excluded = {
+	"com.microsoft.java.test.runner-jar-with-dependencies.jar",
+	"jacocoagent.jar",
+}
+for _, java_test_jar in ipairs(java_test_bundles) do
+	local fname = vim.fn.fnamemodify(java_test_jar, ":t")
+	if not vim.tbl_contains(excluded, fname) then
+		table.insert(bundles, java_test_jar)
+	end
+end
 
 local config = {
 	-- The command that starts the language server
