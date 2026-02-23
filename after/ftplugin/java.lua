@@ -73,6 +73,18 @@ local config = {
 			saveActions = {
 				organizeImports = true,
 			},
+			codeGeneration = {
+				insertionLocation = "lastMember",
+				hashCodeEquals = {
+					useInstanceof = true,
+					useJava7Objects = true,
+				},
+				useBlocks = true,
+				toString = {
+					-- codeStyle = "STRING_BUILDER_CHAINED",
+					codeStyle = "STRING_FORMAT",
+				}
+			}
 		},
 	},
 
