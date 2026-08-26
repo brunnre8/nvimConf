@@ -10,9 +10,10 @@ return {
 			nonewvars = true,
 			unusedparams = true,
 			shadow = true,
-			QF1008 = false,
+			QF1008 = false, -- omit embedded fields from selector expression
 			ST1000 = false, -- package comment nag
 			ST1003 = false, -- all caps names
+			ST1020 = false, -- comment should start with blah
 		},
 		linksInHover = false,
 		staticcheck = true,
